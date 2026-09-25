@@ -43,7 +43,7 @@ export function IdxQuickSearch() {
     script.defer = true;
     script.setAttribute("data-site", QUICK_SEARCH_SITE);
     script.setAttribute("data-widget", "quick-search");
-    script.setAttribute("data-target", "#sneak-idx-quick-search");
+    script.setAttribute("data-target", "#sneak-idx-search-bar");
     script.setAttribute("data-heading", QUICK_SEARCH_HEADING);
     script.setAttribute("data-redirect-url", QUICK_SEARCH_REDIRECT);
     script.addEventListener("error", () => setEmbedState("error"));
@@ -70,11 +70,12 @@ export function IdxQuickSearch() {
         </div>
       ) : (
         <div
-          id="sneak-idx-quick-search"
+          id="sneak-idx-search-bar"
           data-site={QUICK_SEARCH_SITE}
           data-widget="quick-search"
           data-heading={QUICK_SEARCH_HEADING}
           data-redirect-url={QUICK_SEARCH_REDIRECT}
+          style={{ width: "100%", maxWidth: "100%" }}
         />
       )}
     </div>
