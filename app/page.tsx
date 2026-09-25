@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { HomeSearch, ListingGrid, SiteFooter, SiteHeader, WeatherStrip } from "./components";
+import { HomeSearch, SiteFooter, SiteHeader, WeatherStrip } from "./components";
+import { IdxSearch } from "./idx-search";
 import { locations, priceBands, testimonials } from "./site-data";
 
 export const metadata: Metadata = {
@@ -85,7 +86,7 @@ export default function Home() {
         <section className="featured-section">
           <div className="site-width">
             <div className="section-heading"><div><div className="eyebrow">Fresh on the market</div><h2>Featured Listings</h2></div><a className="button outline dark-outline" href="/office-listings">View More</a></div>
-            <ListingGrid limit={4} />
+            <IdxSearch title="Featured Listings" showHeading={false} />
           </div>
         </section>
 
@@ -97,4 +98,3 @@ export default function Home() {
     </div>
   );
 }
-

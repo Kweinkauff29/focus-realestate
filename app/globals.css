@@ -221,6 +221,9 @@ em { font-weight: 400; }
 
 /* IDX browser */
 .search-page { padding-block: 55px 90px; }
+.idx-widget-shell { min-height: 680px; width: 100%; }
+.featured-section .idx-browser { width: 100%; }
+.featured-section .idx-widget-shell { min-height: 620px; }
 .idx-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
 .idx-heading h1 { margin: 0; }
 .view-toggle { display: flex; border: 1px solid var(--line); }
