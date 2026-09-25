@@ -15,7 +15,7 @@ type SearchProps = {
   pinAgents?: string;
 };
 
-const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.25.1";
+const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.25.2";
 const IDX_HOST = "ursulaweinkauff.com";
 const TEAM_AGENT_IDS = "633942,B3233500,B3512909";
 const QUICK_SEARCH_SITE = "ursulaweinkauff-com";
