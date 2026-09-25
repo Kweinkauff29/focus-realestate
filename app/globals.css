@@ -151,8 +151,8 @@ em { font-weight: 400; }
 .testimonial-bubble cite.is-visible { opacity: 1; }
 @keyframes testimonial-word-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 .scroll-scene { min-height: 330px; color: #fff; background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; }
-.scroll-scene-coast { background-image: var(--coast-background-image); }
-.scroll-scene-sunset { background-image: var(--sunset-background-image); }
+.scroll-scene-coast { background-image: var(--coast-background-image); background-position: center 48%; }
+.scroll-scene-sunset { background-image: var(--sunset-background-image); background-position: center 52%; }
 .scroll-scene-shade { display: grid; min-height: inherit; align-items: center; background: linear-gradient(90deg, rgba(7,18,24,.76), rgba(7,18,24,.26) 64%, rgba(7,18,24,.16)); }
 .scroll-scene-sunset .scroll-scene-shade { background: linear-gradient(90deg, rgba(7,18,24,.12), rgba(7,18,24,.28) 42%, rgba(7,18,24,.78)); }
 .scroll-scene-content { padding-block: 62px; }

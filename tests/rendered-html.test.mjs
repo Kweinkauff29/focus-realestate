@@ -60,5 +60,7 @@ test("exports every known route and its shared client assets", async () => {
     ),
     access(new URL("_next/", outputRoot)),
     access(new URL("assets/focus-logo.png", outputRoot)),
+    access(new URL("assets/swfl-coast-aerial-alex-perez.webp", outputRoot)),
+    access(new URL("assets/naples-pier-sunset-rolando-yera.webp", outputRoot)),
   ]);
 });
