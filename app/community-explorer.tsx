@@ -69,7 +69,7 @@ export function CommunityExplorer() {
                   tabIndex={isOpen ? undefined : -1}
                   href={sitePath(band.suffix === "luxury" ? `/luxury-homes-for-sale-in-${location.slug}-fl` : `/homes-for-sale-in-${location.slug}-fl-${band.suffix}`)}
                 >
-                  {band.label}<span aria-hidden="true">&nearr;</span>
+                  {band.label}<span aria-hidden="true">↗</span>
                 </a>
               ))}
             </div>

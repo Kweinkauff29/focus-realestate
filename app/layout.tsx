@@ -30,6 +30,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const assetStyles = {
     "--hero-background-image": `url("${sitePath("/assets/hero-southwest-florida.jpg")}")`,
     "--article-background-image": `url("${sitePath("/assets/fort-myers-beach.jpg")}")`,
+    "--coast-background-image": `url("${sitePath("/assets/fort-myers-beach.jpg")}")`,
+    "--sunset-background-image": `url("${sitePath("/assets/naples.jpg")}")`,
     "--footer-background-image": `url("${sitePath("/assets/footer-home.jpg")}")`,
   } as CSSProperties;
 

@@ -31,7 +31,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           </a>
           <nav className="desktop-nav" aria-label="Main navigation">
             {navGroups.map((group) => group.items ? (
-              <details className="nav-group" key={group.label}>
+              <details className={group.label === "Communities" ? "nav-group nav-group-wide" : "nav-group"} key={group.label}>
                 <summary>{group.label}</summary>
                 <div className="nav-menu">
                   {group.items.map((item) => <a key={item.href + item.label} href={sitePath(item.href)}>{item.label}</a>)}

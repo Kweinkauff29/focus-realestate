@@ -51,10 +51,30 @@ export default function Home() {
           <TestimonialsCarousel />
         </section>
 
+        <section className="scroll-scene scroll-scene-coast" aria-label="Southwest Florida coastal lifestyle">
+          <div className="scroll-scene-shade">
+            <div className="scroll-scene-content site-width">
+              <div className="eyebrow light">Live the coast</div>
+              <h2>More than a home.<br />A Southwest Florida lifestyle.</h2>
+              <a className="button white" href={sitePath("/homes-for-sale-in-bonita-springs-fl")}>Explore the Coast</a>
+            </div>
+          </div>
+        </section>
+
         <section className="community-section">
           <div className="site-width">
             <div className="section-heading"><div><div className="eyebrow">Explore the coast</div><h2>Discover <em>SWFL</em></h2></div><p>Choose an area, then narrow the search by price.</p></div>
             <CommunityExplorer />
+          </div>
+        </section>
+
+        <section className="scroll-scene scroll-scene-sunset" aria-label="Southwest Florida local real estate expertise">
+          <div className="scroll-scene-shade">
+            <div className="scroll-scene-content site-width align-right">
+              <div className="eyebrow light">Rooted in Southwest Florida</div>
+              <h2>Local knowledge.<br />Global connections.</h2>
+              <a className="button white" href={sitePath("/about-us")}>Meet Ursula &amp; Her Team</a>
+            </div>
           </div>
         </section>
 
