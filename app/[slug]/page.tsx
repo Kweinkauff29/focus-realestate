@@ -222,7 +222,7 @@ export default async function RoutePage({ params }: RouteProps) {
   const { slug } = await params;
   if (listingPage(slug)) {
     const defaults = listingDefaults(slug);
-    return <div className="site-page"><SiteHeader /><main className="site-width search-page"><IdxSearch title={defaults.title} defaultLocation={defaults.location} defaultMinPrice={defaults.minPrice} defaultMaxPrice={defaults.maxPrice} defaultStatus={defaults.status} defaultPropertyType={defaults.propertyType} /></main><SiteFooter /></div>;
+    return <div className="site-page"><SiteHeader /><main className="site-width search-page"><IdxSearch title={defaults.title} defaultLocation={defaults.location} defaultMinPrice={defaults.minPrice} defaultMaxPrice={defaults.maxPrice} defaultStatus={defaults.status} defaultPropertyType={defaults.propertyType} featured={slug === "office-listings"} /></main><SiteFooter /></div>;
   }
   if (slug === "about-us") return <AboutPage />;
   if (slug === "meet-the-team" || slug === "meet-our-team") return <TeamPage />;

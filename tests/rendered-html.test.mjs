@@ -13,8 +13,22 @@ test("exports the production home page and GitHub Pages control files", async ()
   ]);
 
   assert.match(html, /<title>Ursula Weinkauff \| Focus Group by Local Real Estate/);
-  assert.match(html, /id="sneak-idx-search"/);
+  assert.match(html, /id="sneak-idx-featured"/);
+  assert.match(html, /data-featured="true"/);
   assert.equal(cname.trim(), "ursulaweinkauff.com");
+});
+
+test("configures team-only and pinned-agent IDX feeds", async () => {
+  const [teamListings, marketSearch] = await Promise.all([
+    readFile(new URL("office-listings.html", outputRoot), "utf8"),
+    readFile(new URL("quick-search.html", outputRoot), "utf8"),
+  ]);
+
+  assert.match(teamListings, /id="sneak-idx-featured"/);
+  assert.match(teamListings, /data-featured="true"/);
+  assert.doesNotMatch(teamListings, /data-pin-agents=/);
+  assert.match(marketSearch, /id="sneak-idx-pinned"/);
+  assert.match(marketSearch, /data-pin-agents="633942,B3233500,B3512909"/);
 });
 
 test("exports every known route and its shared client assets", async () => {

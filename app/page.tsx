@@ -79,7 +79,7 @@ export default function Home() {
         <section className="featured-section">
           <div className="site-width">
             <div className="section-heading"><div><div className="eyebrow">Fresh on the market</div><h2>Featured Listings</h2></div><a className="button outline dark-outline" href={sitePath("/office-listings")}>View More</a></div>
-            <IdxSearch title="Featured Listings" showHeading={false} />
+            <IdxSearch title="Featured Listings" showHeading={false} featured />
           </div>
         </section>
 
