@@ -167,7 +167,7 @@ export function WeatherStrip() {
 }
 
 export function TestimonialsCarousel() {
-  const [groupIndex, setGroupIndex] = useState(0);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [paused, setPaused] = useState(false);
 
@@ -175,10 +175,10 @@ export function TestimonialsCarousel() {
     if (paused) return;
 
     const showTimer = window.setTimeout(() => setVisible(true), 80);
-    const hideTimer = window.setTimeout(() => setVisible(false), 11_500);
+    const hideTimer = window.setTimeout(() => setVisible(false), 9_000);
     const nextTimer = window.setTimeout(
-      () => setGroupIndex((index) => (index + 1) % Math.ceil(testimonials.length / 3)),
-      12_500,
+      () => setTestimonialIndex((index) => (index + 1) % testimonials.length),
+      10_000,
     );
 
     return () => {
@@ -186,12 +186,13 @@ export function TestimonialsCarousel() {
       window.clearTimeout(hideTimer);
       window.clearTimeout(nextTimer);
     };
-  }, [groupIndex, paused]);
+  }, [testimonialIndex, paused]);
 
-  const activeTestimonials = Array.from(
-    { length: 3 },
-    (_, index) => testimonials[(groupIndex * 3 + index) % testimonials.length],
-  );
+  const testimonial = testimonials[testimonialIndex];
+  const words = testimonial.quote.split(/\s+/);
+  const animationStyle = {
+    "--cite-delay": `${0.7 + words.length * 0.035}s`,
+  } as CSSProperties;
 
   return (
     <article
@@ -203,25 +204,23 @@ export function TestimonialsCarousel() {
       <div className="eyebrow">Client Stories</div>
       <h2>What Clients <em>Say</em></h2>
       <div className="testimonial-rotation" aria-live="polite">
-        {activeTestimonials.map((item, itemIndex) => (
-          <blockquote
-            className={`testimonial-bubble ${itemIndex % 2 ? "from-right" : "from-left"}${visible ? " is-visible" : ""}`}
-            key={`${groupIndex}-${item.name}`}
-            style={{ "--item-delay": `${itemIndex * 0.34}s` } as CSSProperties}
-          >
-            <p>
-              {item.quote.split(/\s+/).map((word, wordIndex) => (
-                <span
-                  key={`${word}-${wordIndex}`}
-                  style={{ "--word-delay": `${0.7 + itemIndex * 0.34 + wordIndex * 0.035}s` } as CSSProperties}
-                >
-                  {word}{" "}
-                </span>
-              ))}
-            </p>
-            <cite>{item.name}</cite>
-          </blockquote>
-        ))}
+        <blockquote
+          className={`testimonial-bubble ${testimonialIndex % 2 ? "from-right" : "from-left"}${visible ? " is-visible" : ""}`}
+          key={`${testimonialIndex}-${testimonial.name}`}
+          style={animationStyle}
+        >
+          <p>
+            {words.map((word, wordIndex) => (
+              <span
+                key={`${word}-${wordIndex}`}
+                style={{ "--word-delay": `${0.55 + wordIndex * 0.035}s` } as CSSProperties}
+              >
+                {word}{" "}
+              </span>
+            ))}
+          </p>
+          <cite>{testimonial.name}</cite>
+        </blockquote>
       </div>
       <a className="text-link" href={sitePath("/testimonials-page")}>View More Testimonials →</a>
     </article>

@@ -123,15 +123,16 @@ em { font-weight: 400; }
 .testimonial-stack blockquote, .testimonials-page blockquote { position: relative; margin: 0 0 18px; padding: 22px 28px; border: 1px solid #e7e7e7; border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 7px 7px 0 rgba(240,100,121,.85); }
 .testimonial-stack blockquote p { margin-bottom: 8px; font-family: Georgia, serif; font-style: italic; }
 .testimonial-stack cite, .testimonials-page cite { color: var(--coral); font-size: .74rem; font-style: normal; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-.testimonial-rotation { display: grid; gap: 18px; margin-bottom: 28px; }
-.testimonial-bubble { opacity: 0; filter: blur(3px); transition: transform 1.05s cubic-bezier(.22,1,.36,1), opacity .82s ease, filter .82s ease; transition-delay: var(--item-delay, 0s); }
+.testimonial-rotation { display: grid; min-height: 235px; margin-bottom: 28px; align-items: start; }
+.testimonial-rotation .testimonial-bubble { margin: 0; }
+.testimonial-bubble { opacity: 0; filter: blur(3px); transition: transform 1.05s cubic-bezier(.22,1,.36,1), opacity .82s ease, filter .82s ease; }
 .testimonial-bubble.from-left { transform: translateX(-54px); }
 .testimonial-bubble.from-right { transform: translateX(54px); }
 .testimonial-bubble.is-visible { opacity: 1; filter: blur(0); transform: translateX(0); }
 .testimonial-bubble p::before { content: "“"; margin-right: 4px; color: var(--coral); font-size: 1.7rem; line-height: 0; font-style: normal; font-weight: 800; vertical-align: -.18em; }
 .testimonial-bubble p span { opacity: 0; }
 .testimonial-bubble.is-visible p span { animation: testimonial-word-in .24s ease var(--word-delay, 0s) forwards; }
-.testimonial-bubble cite { display: block; opacity: 0; transition: opacity .35s ease 2.1s; }
+.testimonial-bubble cite { display: block; opacity: 0; transition: opacity .35s ease var(--cite-delay, 2.1s); }
 .testimonial-bubble.is-visible cite { opacity: 1; }
 @keyframes testimonial-word-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 .community-section { padding: 90px 0; background: #101820; color: #fff; }
