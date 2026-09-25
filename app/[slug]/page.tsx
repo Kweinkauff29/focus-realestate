@@ -130,6 +130,13 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
 
 const teamMembers = [
   {
+    name: "Ursula Weinkauff",
+    role: "Broker Associate | Realtor®",
+    phone: "2392972777",
+    image: "/assets/ursula.jpg",
+    bio: "Ursula has guided buyers, sellers and investors across Southwest Florida since 1996, pairing bilingual service with deep local knowledge and a trusted professional network.",
+  },
+  {
     name: "Kristin Boyle",
     role: "Realtor® | GRI",
     phone: "5053162306",
@@ -175,7 +182,7 @@ function TeamGrid() {
 }
 
 function TeamPage() {
-  return <PageShell title="Meet The Team"><TeamGrid /></PageShell>;
+  return <PageShell title="Meet The Team" fullWidth><TeamGrid /></PageShell>;
 }
 
 function TeamListingsPage() {

@@ -43,9 +43,12 @@ test("configures team-only and pinned-agent IDX feeds", async () => {
   assert.match(teamListings, /data-featured="true"/);
   assert.doesNotMatch(teamListings, /data-pin-agents=/);
   assert.match(teamListings, /Meet the team behind the listings/);
+  assert.match(teamListings, /Ursula Weinkauff/);
   assert.match(teamListings, /Kristin Boyle/);
   assert.match(teamListings, /Gunnar Ketzler/);
   assert.match(teamListings, /Pat Dimitroff/);
+  const teamGrid = teamListings.slice(teamListings.indexOf("team-grid"));
+  assert.ok(teamGrid.indexOf("Ursula Weinkauff") < teamGrid.indexOf("Kristin Boyle"));
   assert.match(marketSearch, /id="sneak-idx-pinned"/);
   assert.match(marketSearch, /data-pin-agents="633942,B3233500,B3512909"/);
 });
