@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { ContactForm, PageShell, SiteFooter, SiteHeader } from "../components";
 import { IdxSearch } from "../idx-search";
 import { legacySlugs, locations, testimonials } from "../site-data";
+import { sitePath } from "../site-path";
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
-const areaGuides: Record<string, { name: string; location: string; details: string; facts: string[] }> = {
+export const dynamicParams = false;
+
+const areaGuides: Record<string, { name: string; location: string; details: string; facts: string[]; listingsSlug?: string }> = {
   "pelican-landing-area-info": {
     name: "Pelican Landing",
     location: "Bonita Springs, Florida",
@@ -27,12 +30,14 @@ const areaGuides: Record<string, { name: string; location: string; details: stri
   "esplanade-lake-club-area-info": {
     name: "Esplanade Lake Club",
     location: "Fort Myers, Florida",
+    listingsSlug: "esplanade-homes-for-sale",
     details: "Esplanade Lake Club offers resort-style living centered around a large recreational lake. Residents enjoy boating, kayaking, waterfront dining, a resort pool, fitness and wellness amenities, sports courts and an active social calendar in a convenient Fort Myers location.",
     facts: ["Lakefront lifestyle", "Boating and kayaking", "Resort pool", "Bahama Bar", "Fitness and sports courts"],
   },
   "bonita-national-golf-country-club-area-info": {
     name: "Bonita National Golf & Country Club",
     location: "Bonita Springs, Florida",
+    listingsSlug: "bonita-national-homes-for-sale",
     details: "Bonita National is a gated golf community featuring a Gordon Lewis-designed championship course, a grand clubhouse, resort pool, fitness center, spa, tennis and dining. The neighborhood includes condominiums, coach homes and single-family residences with golf and preserve views.",
     facts: ["18-hole championship golf", "Resort-style pool", "Clubhouse dining", "Tennis and fitness", "Condos to single-family homes"],
   },
@@ -88,11 +93,11 @@ function TeamPage() {
     { name: "Gunnar Ketzler", role: "Sales Professional | Realtor®", phone: "2392689906", image: "/assets/gunnar.jpg" },
     { name: "Pat Dimitroff", role: "Realtor®", phone: "", image: "/assets/pat.jpg" },
   ];
-  return <PageShell title="Meet The Team"><div className="team-grid">{team.map((member) => <article className="team-card" key={member.name}><img src={member.image} alt={`${member.name} headshot`} /><div className="eyebrow">Team Member</div><h2>{member.name}</h2><p>{member.role}</p><div className="team-actions">{member.phone && <a href={`tel:${member.phone}`}>Call</a>}<a href="/contact-us">Email</a></div></article>)}</div></PageShell>;
+  return <PageShell title="Meet The Team"><div className="team-grid">{team.map((member) => <article className="team-card" key={member.name}><img src={sitePath(member.image)} alt={`${member.name} headshot`} /><div className="eyebrow">Team Member</div><h2>{member.name}</h2><p>{member.role}</p><div className="team-actions">{member.phone && <a href={`tel:${member.phone}`}>Call</a>}<a href={sitePath("/contact-us")}>Email</a></div></article>)}</div></PageShell>;
 }
 
 function AboutPage() {
-  return <PageShell title="About Ursula Weinkauff"><p>Ursula has been in the Real Estate services business in the Bonita Springs, Estero, Naples, Ft Myers, Ft Myers Beach, Sanibel, Captiva and Cape Coral markets for many successful years and will be here for many more. This longevity and confidence comes from her expertise, excellent service and the repeat and referral business of her Buyers and Sellers.</p><p>As a full-time Southwest Florida Realtor®, Ursula and her team work with Buyers, Sellers and Investors across all price ranges and property types.</p><div className="service-list"><article><h2>Residential Single Family</h2><p>Our residential services connect buyers with sellers every day with professionalism and total dedication to our clients.</p></article><article><h2>Condominiums</h2><p>Our team understands the financing, association and ownership considerations that make the condominium market unique.</p></article><article><h2>Multi-family</h2><p>We help investors evaluate rental properties with careful return, valuation and market analysis.</p></article><article><h2>Commercial</h2><p>We collaborate with commercial property specialists for office, retail, restaurant and investment property needs.</p></article><article><h2>Vacant Land</h2><p>Land requires a clear understanding of use, location and potential. We help buyers and sellers see the full opportunity.</p></article></div><p>Call <a href="tel:2392972777">239-297-2777</a> or <a href="/contact-us">contact us</a> to begin a conversation about your needs.</p></PageShell>;
+  return <PageShell title="About Ursula Weinkauff"><p>Ursula has been in the Real Estate services business in the Bonita Springs, Estero, Naples, Ft Myers, Ft Myers Beach, Sanibel, Captiva and Cape Coral markets for many successful years and will be here for many more. This longevity and confidence comes from her expertise, excellent service and the repeat and referral business of her Buyers and Sellers.</p><p>As a full-time Southwest Florida Realtor®, Ursula and her team work with Buyers, Sellers and Investors across all price ranges and property types.</p><div className="service-list"><article><h2>Residential Single Family</h2><p>Our residential services connect buyers with sellers every day with professionalism and total dedication to our clients.</p></article><article><h2>Condominiums</h2><p>Our team understands the financing, association and ownership considerations that make the condominium market unique.</p></article><article><h2>Multi-family</h2><p>We help investors evaluate rental properties with careful return, valuation and market analysis.</p></article><article><h2>Commercial</h2><p>We collaborate with commercial property specialists for office, retail, restaurant and investment property needs.</p></article><article><h2>Vacant Land</h2><p>Land requires a clear understanding of use, location and potential. We help buyers and sellers see the full opportunity.</p></article></div><p>Call <a href="tel:2392972777">239-297-2777</a> or <a href={sitePath("/contact-us")}>contact us</a> to begin a conversation about your needs.</p></PageShell>;
 }
 
 function TestimonialsPage() {
@@ -100,19 +105,20 @@ function TestimonialsPage() {
 }
 
 function AreaGuide({ guide }: { guide: (typeof areaGuides)[string] }) {
-  return <PageShell title={`${guide.name} Overview`} eyebrow="Area Guide"><p className="lead">Explore {guide.name} homes for sale, real estate and community information in {guide.location}.</p><div className="fact-grid">{guide.facts.map((fact) => <span key={fact}>{fact}</span>)}</div><h2>Life in {guide.name}</h2><p>{guide.details}</p><div className="language-note"><strong>🇩🇪 Deutschsprachige Immobilienberatung</strong><p>Ursula unterstützt deutschsprachige Käufer und Verkäufer persönlich bei jedem Schritt ihrer Immobilientransaktion in Südwest-Florida.</p></div><section className="market-snapshot"><div className="eyebrow">Market Snapshot</div><h2>{guide.name} Stats</h2><div className="stat-grid"><article><small>Monthly Trend</small><strong>New Listings</strong><div className="spark bars"><i /><i /><i /><i /><i /><i /></div></article><article><small>Monthly Trend</small><strong>Closed Sales</strong><div className="spark line"><i /></div></article><article><small>Current Inventory</small><strong>Homes for Sale</strong><div className="spark number">Live IDX</div></article></div></section><a className="button dark" href={`/${guide.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")}-homes-for-sale`}>View Homes for Sale</a></PageShell>;
+  const listingsSlug = guide.listingsSlug || `${guide.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")}-homes-for-sale`;
+  return <PageShell title={`${guide.name} Overview`} eyebrow="Area Guide"><p className="lead">Explore {guide.name} homes for sale, real estate and community information in {guide.location}.</p><div className="fact-grid">{guide.facts.map((fact) => <span key={fact}>{fact}</span>)}</div><h2>Life in {guide.name}</h2><p>{guide.details}</p><div className="language-note"><strong>🇩🇪 Deutschsprachige Immobilienberatung</strong><p>Ursula unterstützt deutschsprachige Käufer und Verkäufer persönlich bei jedem Schritt ihrer Immobilientransaktion in Südwest-Florida.</p></div><section className="market-snapshot"><div className="eyebrow">Market Snapshot</div><h2>{guide.name} Stats</h2><div className="stat-grid"><article><small>Monthly Trend</small><strong>New Listings</strong><div className="spark bars"><i /><i /><i /><i /><i /><i /></div></article><article><small>Monthly Trend</small><strong>Closed Sales</strong><div className="spark line"><i /></div></article><article><small>Current Inventory</small><strong>Homes for Sale</strong><div className="spark number">Live IDX</div></article></div></section><a className="button dark" href={sitePath(`/${listingsSlug}`)}>View Homes for Sale</a></PageShell>;
 }
 
 function BuyerSellerInfo() {
-  return <PageShell title="Buyer / Seller Info"><p className="lead">Practical guidance for a confident Southwest Florida real estate move.</p><div className="resource-grid"><article><span>01</span><h2>For Buyers</h2><p>Define your goals, arrange financing, explore the market and build a clear offer strategy with a local advocate.</p><a href="/dream-home-finder">Start your home search →</a></article><article><span>02</span><h2>For Sellers</h2><p>Understand the market, prepare the property, set an informed price and launch a thoughtful marketing plan.</p><a href="/free-market-analysis">Request a market analysis →</a></article><article><span>03</span><h2>For Investors</h2><p>Compare returns, expenses, financing and local demand before selecting the right property and ownership plan.</p><a href="/contact-us">Discuss your investment goals →</a></article></div></PageShell>;
+  return <PageShell title="Buyer / Seller Info"><p className="lead">Practical guidance for a confident Southwest Florida real estate move.</p><div className="resource-grid"><article><span>01</span><h2>For Buyers</h2><p>Define your goals, arrange financing, explore the market and build a clear offer strategy with a local advocate.</p><a href={sitePath("/dream-home-finder")}>Start your home search →</a></article><article><span>02</span><h2>For Sellers</h2><p>Understand the market, prepare the property, set an informed price and launch a thoughtful marketing plan.</p><a href={sitePath("/free-market-analysis")}>Request a market analysis →</a></article><article><span>03</span><h2>For Investors</h2><p>Compare returns, expenses, financing and local demand before selecting the right property and ownership plan.</p><a href={sitePath("/contact-us")}>Discuss your investment goals →</a></article></div></PageShell>;
 }
 
 function BlogIndex() {
-  return <PageShell title="Blog" fullWidth><div className="blog-grid">{Object.entries(blogPosts).map(([slug, post]) => <article className="blog-card" key={slug}><div className="blog-image" /><small>{post.date}</small><h2>{post.title}</h2><p>{post.body[0]}</p><a href={`/${slug}`}>Read more →</a></article>)}</div></PageShell>;
+  return <PageShell title="Blog" fullWidth><div className="blog-grid">{Object.entries(blogPosts).map(([slug, post]) => <article className="blog-card" key={slug}><div className="blog-image" /><small>{post.date}</small><h2>{post.title}</h2><p>{post.body[0]}</p><a href={sitePath(`/${slug}`)}>Read more →</a></article>)}</div></PageShell>;
 }
 
 function BlogArticle({ post }: { post: (typeof blogPosts)[string] }) {
-  return <PageShell title={post.title} eyebrow={post.date}><div className="article-hero" />{post.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}<hr /><h2>Ready to talk?</h2><p>Contact Focus Group by Local Real Estate for current information and guidance tailored to your goals.</p><a className="button dark" href="/contact-us">Contact Ursula</a></PageShell>;
+  return <PageShell title={post.title} eyebrow={post.date}><div className="article-hero" />{post.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}<hr /><h2>Ready to talk?</h2><p>Contact Focus Group by Local Real Estate for current information and guidance tailored to your goals.</p><a className="button dark" href={sitePath("/contact-us")}>Contact Ursula</a></PageShell>;
 }
 
 export default async function RoutePage({ params }: RouteProps) {
@@ -129,11 +135,10 @@ export default async function RoutePage({ params }: RouteProps) {
   if (slug === "dream-home-finder") return <PageShell title="Dream Home Finder"><p className="lead">Tell us what you are looking for and we will help you find the right Southwest Florida property.</p><ContactForm kind="dream" /></PageShell>;
   if (slug === "free-market-analysis") return <PageShell title="FREE Market Analysis"><p className="lead">Want to know what your home is worth? Share a few details and we will prepare a local market analysis.</p><ContactForm kind="valuation" /></PageShell>;
   if (slug === "buyerseller-info") return <BuyerSellerInfo />;
-  if (slug === "mortgage-rates") return <PageShell title="Mortgage Rates"><p className="lead">Mortgage rates vary by loan program, credit profile, down payment and market conditions.</p><div className="callout"><h2>Get a personalized quote</h2><p>For current rate and financing options, speak with a qualified mortgage professional. We can introduce trusted local lenders familiar with Southwest Florida transactions.</p><a className="button dark" href="/contact-us">Ask for a lender introduction</a></div></PageShell>;
+  if (slug === "mortgage-rates") return <PageShell title="Mortgage Rates"><p className="lead">Mortgage rates vary by loan program, credit profile, down payment and market conditions.</p><div className="callout"><h2>Get a personalized quote</h2><p>For current rate and financing options, speak with a qualified mortgage professional. We can introduce trusted local lenders familiar with Southwest Florida transactions.</p><a className="button dark" href={sitePath("/contact-us")}>Ask for a lender introduction</a></div></PageShell>;
   if (slug === "welcome-to-southwest-florida") return <PageShell title="Welcome to Southwest Florida"><p className="lead">Sun, water, recreation and welcoming communities make Southwest Florida an exceptional place to call home.</p><div className="resource-grid"><article><h2>Coastal Living</h2><p>Explore Gulf beaches, boating, waterfront neighborhoods and island communities.</p></article><article><h2>Golf & Recreation</h2><p>Choose from private clubs, public courses, nature preserves and miles of trails.</p></article><article><h2>Connected Communities</h2><p>Enjoy dining, arts, shopping and easy access to Southwest Florida International Airport.</p></article></div></PageShell>;
-  if (slug === "real-estate-news") return <PageShell title="Real Estate News"><p className="lead">Market perspectives and local updates from Focus Group by Local Real Estate.</p><div className="blog-grid">{Object.entries(blogPosts).slice(0, 3).map(([postSlug, post]) => <article className="blog-card" key={postSlug}><small>{post.date}</small><h2>{post.title}</h2><p>{post.body[0]}</p><a href={`/${postSlug}`}>Read more →</a></article>)}</div></PageShell>;
+  if (slug === "real-estate-news") return <PageShell title="Real Estate News"><p className="lead">Market perspectives and local updates from Focus Group by Local Real Estate.</p><div className="blog-grid">{Object.entries(blogPosts).slice(0, 3).map(([postSlug, post]) => <article className="blog-card" key={postSlug}><small>{post.date}</small><h2>{post.title}</h2><p>{post.body[0]}</p><a href={sitePath(`/${postSlug}`)}>Read more →</a></article>)}</div></PageShell>;
   if (slug === "my-blog") return <BlogIndex />;
   if (blogPosts[slug]) return <BlogArticle post={blogPosts[slug]} />;
-  return <PageShell title={humanize(slug)}><p className="lead">This page has moved into the new Focus Group website experience while keeping its original address.</p><p>Use the navigation above to explore Southwest Florida listings, communities and resources, or contact the team for direct assistance.</p><a className="button dark" href="/contact-us">Contact Us</a></PageShell>;
+  return <PageShell title={humanize(slug)}><p className="lead">This page has moved into the new Focus Group website experience while keeping its original address.</p><p>Use the navigation above to explore Southwest Florida listings, communities and resources, or contact the team for direct assistance.</p><a className="button dark" href={sitePath("/contact-us")}>Contact Us</a></PageShell>;
 }
-

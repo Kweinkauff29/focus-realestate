@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { demoListings, locations, navGroups, socialLinks, type Listing } from "./site-data";
+import { sitePath } from "./site-path";
 
 export function TopBar() {
   return (
@@ -7,7 +8,7 @@ export function TopBar() {
       <div className="site-width top-bar-inner">
         <div className="top-contact">
           <a href="tel:+12392972777">☎ <span>239-297-2777</span></a>
-          <a href="/contact-us">✉ <span>Email Us</span></a>
+          <a href={sitePath("/contact-us")}>✉ <span>Email Us</span></a>
         </div>
         <div className="social-row" aria-label="Social links">
           {socialLinks.map((item) => (
@@ -25,30 +26,30 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       <TopBar />
       <header className={overlay ? "site-header overlay" : "site-header"}>
         <div className="site-width header-inner">
-          <a className="brand" href="/" aria-label="Focus Group Local home">
-            <img src="/assets/focus-logo.png" alt="Focus Group Local" />
+          <a className="brand" href={sitePath("/")} aria-label="Focus Group Local home">
+            <img src={sitePath("/assets/focus-logo.png")} alt="Focus Group Local" />
           </a>
           <nav className="desktop-nav" aria-label="Main navigation">
             {navGroups.map((group) => group.items ? (
               <details className="nav-group" key={group.label}>
                 <summary>{group.label}</summary>
                 <div className="nav-menu">
-                  {group.items.map((item) => <a key={item.href + item.label} href={item.href}>{item.label}</a>)}
+                  {group.items.map((item) => <a key={item.href + item.label} href={sitePath(item.href)}>{item.label}</a>)}
                 </div>
               </details>
-            ) : <a key={group.label} className="nav-direct" href={group.href}>{group.label}</a>)}
+            ) : <a key={group.label} className="nav-direct" href={sitePath(group.href || "/")}>{group.label}</a>)}
           </nav>
           <div className="account-actions">
-            <a className="button dark small" href="/account">Log In</a>
-            <a className="button gray small" href="/account?mode=signup">Sign Up</a>
+            <a className="button dark small" href={sitePath("/account")}>Log In</a>
+            <a className="button gray small" href={sitePath("/account?mode=signup")}>Sign Up</a>
           </div>
           <details className="mobile-nav">
             <summary aria-label="Open navigation">Menu</summary>
             <div className="mobile-menu">
               {navGroups.map((group) => (
                 <div key={group.label}>
-                  {group.href ? <a href={group.href}>{group.label}</a> : <strong>{group.label}</strong>}
-                  {group.items?.map((item) => <a key={item.href + item.label} href={item.href}>{item.label}</a>)}
+                  {group.href ? <a href={sitePath(group.href)}>{group.label}</a> : <strong>{group.label}</strong>}
+                  {group.items?.map((item) => <a key={item.href + item.label} href={sitePath(item.href)}>{item.label}</a>)}
                 </div>
               ))}
             </div>
@@ -61,7 +62,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
 
 export function HomeSearch({ compact = false, initialLocation = "" }: { compact?: boolean; initialLocation?: string }) {
   return (
-    <form className={compact ? "home-search compact" : "home-search"} action="/quick-search" method="get">
+    <form className={compact ? "home-search compact" : "home-search"} action={sitePath("/quick-search")} method="get">
       {!compact && <h1>Find Your Southwest Florida Dream Home</h1>}
       <label className="sr-only" htmlFor={compact ? "hero-location-compact" : "hero-location"}>Location</label>
       <input id={compact ? "hero-location-compact" : "hero-location"} name="location" defaultValue={initialLocation} placeholder="Type a city, subdivision, zip, address, or listing #" />
@@ -104,19 +105,19 @@ export function WeatherStrip() {
 export function ProfileAside() {
   return (
     <aside className="profile-card">
-      <div className="portrait-frame"><img src="/assets/ursula.jpg" alt="Ursula Weinkauff" /></div>
+      <div className="portrait-frame"><img src={sitePath("/assets/ursula.jpg")} alt="Ursula Weinkauff" /></div>
       <div className="eyebrow">Meet</div>
       <h2>Ursula<br />Weinkauff</h2>
       <p className="profile-kicker">and her Southwest FL<br />Real Estate Team</p>
       <p>Your bi-lingual Neighborhood Expert! I listen carefully to understand your real estate goals and work hard to create solutions that make sense for you.</p>
       <div className="flag-row" aria-label="Languages">🇺🇸 🇩🇪 🇬🇧 🇨🇦</div>
       <a className="profile-phone" href="tel:2392972777">239-297-2777</a>
-      <a className="button coral" href="/contact-us">Contact Us</a>
+      <a className="button coral" href={sitePath("/contact-us")}>Contact Us</a>
       <div className="profile-links">
-        <a href="/quick-search">Quick Search</a>
-        <a href="/dream-home-finder">Dream Home Finder</a>
-        <a href="/free-market-analysis">FREE Market Analysis</a>
-        <a href="/testimonials-page">Testimonials</a>
+        <a href={sitePath("/quick-search")}>Quick Search</a>
+        <a href={sitePath("/dream-home-finder")}>Dream Home Finder</a>
+        <a href={sitePath("/free-market-analysis")}>FREE Market Analysis</a>
+        <a href={sitePath("/testimonials-page")}>Testimonials</a>
       </div>
     </aside>
   );
@@ -141,9 +142,9 @@ export function PageShell({ title, children, fullWidth = false, eyebrow }: { tit
 
 export function ListingCard({ listing }: { listing: Listing }) {
   return (
-    <a className="listing-card" href={`/idx/listing/featured/${listing.id}/${encodeURIComponent(`${listing.address}-${listing.city}`.replaceAll(" ", "-"))}`}>
+    <a className="listing-card" href={sitePath(`/idx/listing/featured/${listing.id}/${encodeURIComponent(`${listing.address}-${listing.city}`.replaceAll(" ", "-"))}`)}>
       <div className="listing-image">
-        <img src={listing.image} alt={`${listing.address}, ${listing.city}`} />
+        <img src={sitePath(listing.image)} alt={`${listing.address}, ${listing.city}`} />
         {listing.status && <span className="listing-status">{listing.status}</span>}
       </div>
       <div className="listing-body">
@@ -168,7 +169,7 @@ export function ContactForm({ kind = "contact" }: { kind?: "contact" | "dream" |
   const isDream = kind === "dream";
   const isValuation = kind === "valuation";
   return (
-    <form className="lead-form" method="post" action="/api/contact">
+    <form className="lead-form" method="post" action="mailto:Ursula@Focus-RealEstate.com" encType="text/plain">
       <input type="hidden" name="kind" value={kind} />
       <div className="form-grid">
         <label>First Name<input name="firstName" required /></label>
@@ -196,7 +197,7 @@ export function SiteFooter() {
       <div className="footer-overlay">
         <div className="site-width footer-grid">
           <div className="footer-brand">
-            <img src="/assets/focus-logo.png" alt="Focus Group Local" />
+            <img src={sitePath("/assets/focus-logo.png")} alt="Focus Group Local" />
             <p><strong><em>Ursula Weinkauff PA</em></strong> | Focus Group by Local Real Estate</p>
             <p>Broker Associate | Realtor®, CIPS | e-Pro | RSPS | AHWD | ABR® | Certified Luxury Home Marketing Specialist™ | GUILD™ | Global Real Estate Expert - GREP | POWER AGENT®</p>
             <p>Notary Public</p>
@@ -204,7 +205,7 @@ export function SiteFooter() {
           </div>
           <div>
             <h2>Explore</h2>
-            {locations.map((location) => <a className="footer-link" key={location.slug} href={`/homes-for-sale-in-${location.slug}-fl`}>{location.name}</a>)}
+            {locations.map((location) => <a className="footer-link" key={location.slug} href={sitePath(`/homes-for-sale-in-${location.slug}-fl`)}>{location.name}</a>)}
           </div>
           <div>
             <h2>Connect</h2>
@@ -215,9 +216,9 @@ export function SiteFooter() {
         </div>
         <div className="site-width footer-legal">
           <div className="designation-row">
-            <img src="/assets/equal-housing.png" alt="Equal Housing Opportunity" />
-            <img src="/assets/realtor.png" alt="Realtor" />
-            <img src="/assets/mls.png" alt="MLS" />
+            <img src={sitePath("/assets/equal-housing.png")} alt="Equal Housing Opportunity" />
+            <img src={sitePath("/assets/realtor.png")} alt="Realtor" />
+            <img src={sitePath("/assets/mls.png")} alt="MLS" />
           </div>
           <p>© {new Date().getFullYear()} Focus Group by Local Real Estate. Information deemed reliable but not guaranteed. Equal Housing Opportunity.</p>
         </div>
@@ -225,4 +226,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-

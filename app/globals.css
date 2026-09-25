@@ -67,7 +67,7 @@ em { font-weight: 400; }
 .mobile-nav { display: none; margin-left: auto; }
 
 /* Home hero */
-.hero { position: relative; height: 650px; overflow: hidden; color: #fff; background: #122025 url("/assets/hero-southwest-florida.jpg") center/cover; }
+.hero { position: relative; height: 650px; overflow: hidden; color: #fff; background: #122025 var(--hero-background-image) center/cover; }
 .hero-video { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .hero-video iframe { position: absolute; top: 50%; left: 50%; width: max(100vw, 177.78vh); height: max(56.25vw, 100vh); min-height: 760px; transform: translate(-50%, -50%); border: 0; opacity: .78; }
 .hero-shade { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(2,8,10,.48), rgba(2,8,10,.08) 65%), linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.32)); }
@@ -212,7 +212,7 @@ em { font-weight: 400; }
 .resource-grid p { color: #60676b; font-size: .92rem !important; }
 .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .blog-card { padding: 22px; border: 1px solid var(--line); }
-.blog-image, .article-hero { background: linear-gradient(135deg, rgba(20,30,38,.35), rgba(240,100,121,.15)), url("/assets/fort-myers-beach.jpg") center/cover; }
+.blog-image, .article-hero { background: linear-gradient(135deg, rgba(20,30,38,.35), rgba(240,100,121,.15)), var(--article-background-image) center/cover; }
 .blog-image { height: 180px; margin: -22px -22px 22px; }
 .article-hero { height: 360px; margin-bottom: 32px; }
 .blog-card small { color: var(--coral); font-weight: 800; }
@@ -249,7 +249,7 @@ em { font-weight: 400; }
 .detail-facts b { display: block; color: var(--ink); font-size: 1.3rem; }
 
 /* Footer */
-.site-footer { color: #fff; background: #1c2931 url("/assets/footer-home.jpg") center/cover; }
+.site-footer { color: #fff; background: #1c2931 var(--footer-background-image) center/cover; }
 .footer-overlay { padding-top: 62px; background: rgba(26,47,59,.74); }
 .footer-grid { display: grid; grid-template-columns: 1.7fr .7fr .9fr; gap: 65px; }
 .footer-brand > img { width: 170px; margin-bottom: 25px; }

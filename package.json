@@ -8,8 +8,11 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "build:pages": "npm run build && npm run pages:prepare && npm run pages:verify",
+    "pages:prepare": "node scripts/prepare-pages.mjs",
+    "pages:verify": "node scripts/verify-pages.mjs",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build:pages && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

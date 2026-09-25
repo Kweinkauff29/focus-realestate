@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HomeSearch, SiteFooter, SiteHeader, WeatherStrip } from "./components";
 import { IdxSearch } from "./idx-search";
 import { locations, priceBands, testimonials } from "./site-data";
+import { sitePath } from "./site-path";
 
 export const metadata: Metadata = {
   title: "Ursula Weinkauff | Focus Group by Local Real Estate | Bonita Springs, FL",
@@ -45,15 +46,15 @@ export default function Home() {
             <h2>Ursula Weinkauff</h2>
             <div className="story-layout">
               <p>Ursula and her team of Global experts—including real estate professionals, attorneys, CPAs, title companies, lenders, mortgage brokers, home inspectors, contractors and others—have proudly served Southwest Florida since January 1996. The team specializes in Bonita Springs, Estero, Naples, Fort Myers, Fort Myers Beach, Sanibel, Captiva and Cape Coral.</p>
-              <div className="portrait-frame home-portrait"><img src="/assets/ursula.jpg" alt="Portrait of Ursula Weinkauff" /></div>
+              <div className="portrait-frame home-portrait"><img src={sitePath("/assets/ursula.jpg")} alt="Portrait of Ursula Weinkauff" /></div>
             </div>
-            <a className="text-link" href="/about-us">Learn more about Ursula and her team →</a>
+            <a className="text-link" href={sitePath("/about-us")}>Learn more about Ursula and her team →</a>
           </article>
           <article className="testimonial-stack">
             <div className="eyebrow">Client Stories</div>
             <h2>What Clients <em>Say</em></h2>
             {testimonials.slice(0, 3).map((item) => <blockquote key={item.name}><p>“{item.quote}”</p><cite>{item.name}</cite></blockquote>)}
-            <a className="text-link" href="/testimonials-page">View More Testimonials →</a>
+            <a className="text-link" href={sitePath("/testimonials-page")}>View More Testimonials →</a>
           </article>
         </section>
 
@@ -63,12 +64,12 @@ export default function Home() {
             <div className="community-grid">
               {locations.map((location) => (
                 <article className="community-card" key={location.slug}>
-                  <a className="community-image" href={`/homes-for-sale-in-${location.slug}-fl`}>
-                    <img src={location.image} alt={`Homes for sale in ${location.name}, Florida`} />
+                  <a className="community-image" href={sitePath(`/homes-for-sale-in-${location.slug}-fl`)}>
+                    <img src={sitePath(location.image)} alt={`Homes for sale in ${location.name}, Florida`} />
                     <span>Area Guide</span><h3>{location.name}</h3>
                   </a>
                   <div className="price-links">
-                    {priceBands.map((band) => <a key={band.suffix} href={band.suffix === "luxury" ? `/luxury-homes-for-sale-in-${location.slug}-fl` : `/homes-for-sale-in-${location.slug}-fl-${band.suffix}`}>{band.label}<span>↗</span></a>)}
+                    {priceBands.map((band) => <a key={band.suffix} href={sitePath(band.suffix === "luxury" ? `/luxury-homes-for-sale-in-${location.slug}-fl` : `/homes-for-sale-in-${location.slug}-fl-${band.suffix}`)}>{band.label}<span>↗</span></a>)}
                   </div>
                 </article>
               ))}
@@ -79,19 +80,19 @@ export default function Home() {
         <section className="action-section site-width">
           <div className="section-heading"><div><div className="eyebrow">How can we help?</div><h2>Your next move starts here</h2></div></div>
           <div className="action-grid">
-            {actionCards.map((card) => <a className="action-card" key={card.title} href={card.href}><span className="action-icon">{card.icon}</span><small>{card.kicker}</small><h3>{card.title}</h3><p>{card.text}</p><b>Get started →</b></a>)}
+            {actionCards.map((card) => <a className="action-card" key={card.title} href={sitePath(card.href)}><span className="action-icon">{card.icon}</span><small>{card.kicker}</small><h3>{card.title}</h3><p>{card.text}</p><b>Get started →</b></a>)}
           </div>
         </section>
 
         <section className="featured-section">
           <div className="site-width">
-            <div className="section-heading"><div><div className="eyebrow">Fresh on the market</div><h2>Featured Listings</h2></div><a className="button outline dark-outline" href="/office-listings">View More</a></div>
+            <div className="section-heading"><div><div className="eyebrow">Fresh on the market</div><h2>Featured Listings</h2></div><a className="button outline dark-outline" href={sitePath("/office-listings")}>View More</a></div>
             <IdxSearch title="Featured Listings" showHeading={false} />
           </div>
         </section>
 
         <section className="consultation-cta">
-          <div className="site-width"><div><div className="eyebrow light">Let’s talk</div><h2>Contact us for a free consultation.<br />No obligation. No catch.</h2></div><a className="button white" href="/contact-us">Contact Us</a></div>
+          <div className="site-width"><div><div className="eyebrow light">Let’s talk</div><h2>Contact us for a free consultation.<br />No obligation. No catch.</h2></div><a className="button white" href={sitePath("/contact-us")}>Contact Us</a></div>
         </section>
       </main>
       <SiteFooter />
