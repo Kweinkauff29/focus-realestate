@@ -13,6 +13,11 @@ test("exports the production home page and GitHub Pages control files", async ()
   ]);
 
   assert.match(html, /<title>Ursula Weinkauff \| Focus Group by Local Real Estate/);
+  assert.match(html, /id="sneak-idx-quick-search"/);
+  assert.match(html, /data-site="ursulaweinkauff-com"/);
+  assert.match(html, /data-widget="quick-search"/);
+  assert.match(html, /data-heading="Find Your Southwest Florida Dream Home"/);
+  assert.match(html, /data-redirect-url="http:\/\/ursulaweinkauff.com\/quick-search"/);
   assert.match(html, /id="sneak-idx-grid"/);
   assert.match(html, /data-layout="grid"/);
   assert.match(html, /data-pin-agents="633942, B3512909"/);

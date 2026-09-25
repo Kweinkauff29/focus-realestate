@@ -287,6 +287,8 @@ em { font-weight: 400; }
 .idx-preview-note > div { max-width: 580px; }
 .idx-preview-note strong { display: block; margin-bottom: 12px; color: #fff; font-family: Georgia, serif; font-size: 1.8rem; }
 .idx-preview-note p { margin: 0; color: #c2cbd0; }
+.quick-search-preview { min-height: 150px; padding: 24px; }
+.quick-search-preview strong { font-size: 1.35rem; }
 .idx-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
 .idx-heading h1 { margin: 0; }
 .view-toggle { display: flex; border: 1px solid var(--line); }

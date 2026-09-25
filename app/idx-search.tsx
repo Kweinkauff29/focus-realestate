@@ -19,6 +19,67 @@ const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/e
 const IDX_GRID_SCRIPT = "https://sneak-idx-worker-staging.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.01.7.4b2";
 const IDX_HOST = "ursulaweinkauff.com";
 const TEAM_AGENT_IDS = "633942,B3233500,B3512909";
+const QUICK_SEARCH_SITE = "ursulaweinkauff-com";
+const QUICK_SEARCH_HEADING = "Find Your Southwest Florida Dream Home";
+const QUICK_SEARCH_REDIRECT = "http://ursulaweinkauff.com/quick-search";
+
+export function IdxQuickSearch() {
+  const shellRef = useRef<HTMLDivElement>(null);
+  const [embedState, setEmbedState] = useState<"checking" | "preview" | "error">("checking");
+
+  useEffect(() => {
+    const shell = shellRef.current;
+    if (!shell) return;
+
+    const hostname = window.location.hostname.toLowerCase();
+    if (hostname !== IDX_HOST) {
+      const previewTimer = window.setTimeout(() => setEmbedState("preview"), 0);
+      return () => window.clearTimeout(previewTimer);
+    }
+
+    const script = document.createElement("script");
+    script.src = IDX_SCRIPT;
+    script.async = true;
+    script.defer = true;
+    script.setAttribute("data-site", QUICK_SEARCH_SITE);
+    script.setAttribute("data-widget", "quick-search");
+    script.setAttribute("data-target", "#sneak-idx-quick-search");
+    script.setAttribute("data-heading", QUICK_SEARCH_HEADING);
+    script.setAttribute("data-redirect-url", QUICK_SEARCH_REDIRECT);
+    script.addEventListener("error", () => setEmbedState("error"));
+    shell.appendChild(script);
+
+    return () => {
+      script.remove();
+      shell.querySelectorAll(".sneak-idx-widget-container, .sneak-idx-error").forEach((node) => node.remove());
+    };
+  }, []);
+
+  return (
+    <div className="home-search idx-quick-search-shell" ref={shellRef}>
+      {embedState === "preview" || embedState === "error" ? (
+        <div className="idx-preview-note quick-search-preview" role="status">
+          <div>
+            <strong>{embedState === "preview" ? "Live home search is secured to the production domain" : "Home search is temporarily unavailable"}</strong>
+            <p>
+              {embedState === "preview"
+                ? "The MLS quick search will load automatically on ursulaweinkauff.com."
+                : "Please refresh the page or use the Quick Search link in the navigation."}
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div
+          id="sneak-idx-quick-search"
+          data-site={QUICK_SEARCH_SITE}
+          data-widget="quick-search"
+          data-heading={QUICK_SEARCH_HEADING}
+          data-redirect-url={QUICK_SEARCH_REDIRECT}
+        />
+      )}
+    </div>
+  );
+}
 
 export function IdxSearch({
   title,

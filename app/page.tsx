@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { HomeSearch, SiteFooter, SiteHeader } from "./components";
+import { SiteFooter, SiteHeader } from "./components";
 import { TestimonialsCarousel, WeatherStrip } from "./home-widgets";
-import { IdxSearch } from "./idx-search";
+import { IdxQuickSearch, IdxSearch } from "./idx-search";
 import { locations, priceBands } from "./site-data";
 import { sitePath } from "./site-path";
 
@@ -34,7 +34,7 @@ export default function Home() {
 
       <main id="main-content">
         <section className="search-weather site-width">
-          <HomeSearch />
+          <IdxQuickSearch />
           <WeatherStrip />
         </section>
 
