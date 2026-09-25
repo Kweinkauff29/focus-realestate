@@ -52,8 +52,8 @@ em { font-weight: 400; }
 .site-header { position: relative; z-index: 40; min-height: 126px; color: #5b5b5b; background: #fff; }
 .site-header.overlay { color: #fff; background: linear-gradient(180deg, rgba(4,8,12,.88), rgba(4,8,12,.38)); }
 .header-inner { min-height: 126px; display: flex; align-items: center; gap: 18px; }
-.brand { position: relative; width: 190px; height: 78px; flex: 0 0 auto; overflow: hidden; }
-.brand img { position: absolute; top: -14px; left: -45px; width: 320px; max-width: none; }
+.brand { position: relative; width: 190px; height: 100px; flex: 0 0 auto; overflow: hidden; }
+.brand img { position: absolute; top: -20px; left: -56px; width: 320px; max-width: none; }
 .desktop-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-left: auto; }
 .nav-direct, .nav-group summary { position: relative; padding: 12px 2px; font-family: Georgia, serif; font-size: 1.02rem; white-space: nowrap; cursor: pointer; list-style: none; transition: color .22s ease; }
 .nav-direct::before, .nav-group summary::before { content: ""; position: absolute; right: 0; bottom: 5px; left: 0; height: 2px; transform: scaleX(0); transform-origin: right; background: linear-gradient(90deg, var(--coral), var(--gold)); transition: transform .3s cubic-bezier(.22,1,.36,1); }
@@ -378,8 +378,8 @@ em { font-weight: 400; }
   .mobile-menu strong, .mobile-menu a { padding: 7px 3px; }
   .mobile-menu a { color: #565d62; }
   .site-header, .header-inner { min-height: 95px; }
-  .brand { width: 160px; }
-  .brand img { left: -58px; }
+  .brand { width: 165px; height: 90px; }
+  .brand img { top: -24px; left: -70px; width: 300px; }
   .hero { height: 590px; }
   .hero-copy { padding-top: 185px; }
   .hero-copy h1 { font-size: 3.6rem; }
