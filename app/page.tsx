@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "./components";
+import { CommunityExplorer } from "./community-explorer";
 import { TestimonialsCarousel, WeatherStrip } from "./home-widgets";
 import { IdxQuickSearch, IdxSearch } from "./idx-search";
-import { locations, priceBands } from "./site-data";
 import { sitePath } from "./site-path";
 
 export const metadata: Metadata = {
@@ -54,19 +54,7 @@ export default function Home() {
         <section className="community-section">
           <div className="site-width">
             <div className="section-heading"><div><div className="eyebrow">Explore the coast</div><h2>Discover <em>SWFL</em></h2></div><p>Choose an area, then narrow the search by price.</p></div>
-            <div className="community-grid">
-              {locations.map((location) => (
-                <article className="community-card" key={location.slug}>
-                  <a className="community-image" href={sitePath(`/homes-for-sale-in-${location.slug}-fl`)}>
-                    <img src={sitePath(location.image)} alt={`Homes for sale in ${location.name}, Florida`} />
-                    <span>Area Guide</span><h3>{location.name}</h3>
-                  </a>
-                  <div className="price-links">
-                    {priceBands.map((band) => <a key={band.suffix} href={sitePath(band.suffix === "luxury" ? `/luxury-homes-for-sale-in-${location.slug}-fl` : `/homes-for-sale-in-${location.slug}-fl-${band.suffix}`)}>{band.label}<span>↗</span></a>)}
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CommunityExplorer />
           </div>
         </section>
 

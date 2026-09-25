@@ -22,6 +22,8 @@ test("exports the production home page and GitHub Pages control files", async ()
   assert.match(html, /data-layout="grid"/);
   assert.match(html, /data-pin-agents="633942, B3512909"/);
   assert.doesNotMatch(html, /data-featured="true"/);
+  assert.match(html, /Browse by price/);
+  assert.match(html, /aria-controls="community-prices-bonita-springs"/);
   assert.equal(cname.trim(), "ursulaweinkauff.com");
 });
 
