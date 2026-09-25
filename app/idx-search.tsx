@@ -15,7 +15,7 @@ type SearchProps = {
   pinAgents?: string;
 };
 
-const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.25.2";
+const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.25.3";
 const IDX_HOST = "ursulaweinkauff.com";
 const TEAM_AGENT_IDS = "633942,B3233500,B3512909";
 const QUICK_SEARCH_SITE = "ursulaweinkauff-com";
@@ -176,4 +176,15 @@ export function IdxSearch({
       </div>
     </section>
   );
+}
+
+export function IdxContactCapture() {
+  const target=useRef<HTMLDivElement>(null);
+  useEffect(()=>{
+    const root=target.current;if(!root)return;
+    const script=document.createElement("script");script.src=IDX_SCRIPT;script.async=true;
+    script.setAttribute("data-site","ursula-weinkauff");script.setAttribute("data-widget","lead-capture");script.setAttribute("data-target","#idx-contact-popup");script.setAttribute("data-heading","Ask Ursula a question");root.appendChild(script);
+    return ()=>{script.remove();root.querySelectorAll(".sneak-idx-widget-container,.sneak-idx-error").forEach(node=>node.remove());};
+  },[]);
+  return <div ref={target} style={{marginTop:24}}><div id="idx-contact-popup" /></div>;
 }

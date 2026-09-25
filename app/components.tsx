@@ -152,31 +152,7 @@ export function ListingGrid({ listings = demoListings, limit }: { listings?: Lis
   return <div className="listing-grid">{visible.map((listing) => <ListingCard key={listing.id} listing={listing} />)}</div>;
 }
 
-export function ContactForm({ kind = "contact" }: { kind?: "contact" | "dream" | "valuation" }) {
-  const isDream = kind === "dream";
-  const isValuation = kind === "valuation";
-  return (
-    <form className="lead-form" method="post" action="mailto:Ursula@Focus-RealEstate.com" encType="text/plain">
-      <input type="hidden" name="kind" value={kind} />
-      <div className="form-grid">
-        <label>First Name<input name="firstName" required /></label>
-        <label>Last Name<input name="lastName" required /></label>
-        <label>Email Address<input name="email" type="email" required /></label>
-        <label>Phone Number<input name="phone" type="tel" /></label>
-        {(isDream || isValuation) && <label className="wide">Property or preferred location<input name="location" placeholder={isValuation ? "Property address" : "City, community, ZIP or address"} required /></label>}
-        {isDream && <>
-          <label>Price range<select name="price"><option>Any</option><option>Under $500,000</option><option>$500,000 – $1,000,000</option><option>$1,000,000+</option></select></label>
-          <label>Property type<select name="type"><option>Single Family Home</option><option>Condominium</option><option>Townhouse</option><option>Lots & Land</option><option>Other</option></select></label>
-          <label>Bedrooms<select name="beds"><option>Any</option><option>2+</option><option>3+</option><option>4+</option></select></label>
-          <label>Bathrooms<select name="baths"><option>Any</option><option>2+</option><option>3+</option><option>4+</option></select></label>
-        </>}
-        <label className="wide">{isValuation ? "Tell us about your property" : isDream ? "Additional preferences" : "How can we help?"}<textarea name="message" rows={6} required={!isDream} /></label>
-      </div>
-      <label className="consent"><input type="checkbox" name="consent" required /> I agree to be contacted about this request.</label>
-      <button className="button dark" type="submit">Send</button>
-    </form>
-  );
-}
+export { ContactForm } from "./contact-form";
 
 export function SiteFooter() {
   return (
