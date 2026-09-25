@@ -27,6 +27,8 @@ test("exports the production home page and GitHub Pages control files", async ()
   assert.doesNotMatch(html, /&amp;nearr;/);
   assert.match(html, /More than a home/);
   assert.match(html, /Local knowledge/);
+  assert.match(html, /class="nav-trigger"/);
+  assert.doesNotMatch(html, /class="nav-group[^"]*"><summary>/);
   assert.equal(cname.trim(), "ursulaweinkauff.com");
 });
 
