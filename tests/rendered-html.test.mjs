@@ -29,6 +29,7 @@ test("exports the production home page and GitHub Pages control files", async ()
   assert.match(html, /Local knowledge/);
   assert.match(html, /class="nav-trigger"/);
   assert.doesNotMatch(html, /class="nav-group[^"]*"><summary>/);
+  assert.doesNotMatch(html, /href="\/advanced-search"/);
   assert.equal(cname.trim(), "ursulaweinkauff.com");
 });
 
@@ -41,8 +42,26 @@ test("configures team-only and pinned-agent IDX feeds", async () => {
   assert.match(teamListings, /id="sneak-idx-featured"/);
   assert.match(teamListings, /data-featured="true"/);
   assert.doesNotMatch(teamListings, /data-pin-agents=/);
+  assert.match(teamListings, /Meet the team behind the listings/);
+  assert.match(teamListings, /Kristin Boyle/);
+  assert.match(teamListings, /Gunnar Ketzler/);
+  assert.match(teamListings, /Pat Dimitroff/);
   assert.match(marketSearch, /id="sneak-idx-pinned"/);
   assert.match(marketSearch, /data-pin-agents="633942,B3233500,B3512909"/);
+});
+
+test("exports working luxury filters and the enhanced about page", async () => {
+  const [luxury, about] = await Promise.all([
+    readFile(new URL("luxury-homes-for-sale-in-naples-fl.html", outputRoot), "utf8"),
+    readFile(new URL("about-us.html", outputRoot), "utf8"),
+  ]);
+
+  assert.match(luxury, /data-location="Naples"/);
+  assert.match(luxury, /data-min-price="2500000"/);
+  assert.doesNotMatch(luxury, /data-max-price=/);
+  assert.match(about, /Local roots\. Global perspective\./);
+  assert.match(about, /Since 1996/);
+  assert.match(about, /One team\. Every property type\./);
 });
 
 test("exports every known route and its shared client assets", async () => {

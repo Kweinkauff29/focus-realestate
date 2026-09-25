@@ -84,6 +84,10 @@ export function IdxQuickSearch() {
 
 export function IdxSearch({
   title,
+  defaultLocation = "",
+  defaultMinPrice = "",
+  defaultMaxPrice = "",
+  defaultPropertyType = "",
   showHeading = true,
   featured = false,
   grid = false,
@@ -110,6 +114,10 @@ export function IdxSearch({
     script.setAttribute("data-site", "ursula-weinkauff");
     script.setAttribute("data-widget", "search");
     script.setAttribute("data-target", `#${targetId}`);
+    if (defaultLocation) script.setAttribute("data-location", defaultLocation);
+    if (defaultMinPrice) script.setAttribute("data-min-price", defaultMinPrice);
+    if (defaultMaxPrice) script.setAttribute("data-max-price", defaultMaxPrice);
+    if (defaultPropertyType) script.setAttribute("data-property-type", defaultPropertyType);
     if (grid) {
       script.setAttribute("data-layout", "grid");
       script.setAttribute("data-pin-agents", pinAgents);
@@ -125,7 +133,7 @@ export function IdxSearch({
       script.remove();
       shell.querySelectorAll(".sneak-idx-widget-container, .sneak-idx-error").forEach((node) => node.remove());
     };
-  }, [featured, grid, pinAgents, targetId]);
+  }, [defaultLocation, defaultMaxPrice, defaultMinPrice, defaultPropertyType, featured, grid, pinAgents, targetId]);
 
   return (
     <section className={featured ? "idx-browser idx-browser-featured" : "idx-browser"} aria-labelledby={showHeading ? "idx-title" : undefined}>
@@ -157,6 +165,10 @@ export function IdxSearch({
             data-layout={grid ? "grid" : undefined}
             data-featured={!grid && featured ? "true" : undefined}
             data-pin-agents={featured && !grid ? undefined : pinAgents}
+            data-location={defaultLocation || undefined}
+            data-min-price={defaultMinPrice || undefined}
+            data-max-price={defaultMaxPrice || undefined}
+            data-property-type={defaultPropertyType || undefined}
             style={{ width: "100%", maxWidth: "100%" }}
           />
         )}

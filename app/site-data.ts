@@ -27,7 +27,6 @@ export const navGroups: NavGroup[] = [
     items: [
       { label: "Quick Search", href: "/quick-search" },
       { label: "Map Search", href: "/map-search" },
-      { label: "Advanced Search", href: "/advanced-search" },
       { label: "Foreclosures", href: "/foreclosure-search" },
       { label: "Commercial Search", href: "/commercial-search" },
       { label: "Commercial Listings", href: "/commercial-listings" },
@@ -118,7 +117,7 @@ export const priceBands = [
   { label: "$750,000 to $1,000,000", suffix: "750000-to-1000000" },
   { label: "$1,000,000 to $1,500,000", suffix: "1000000-to-1500000" },
   { label: "$1,500,000 to $2,500,000", suffix: "1500000-to-2500000" },
-  { label: "Luxury Homes", suffix: "luxury" },
+  { label: "Luxury Homes $2,500,000+", suffix: "luxury" },
 ];
 
 export type Listing = {

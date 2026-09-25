@@ -111,7 +111,7 @@ function listingDefaults(slug: string) {
   else if (slug.includes("750000-to-1000000")) { minPrice = "750000"; maxPrice = "1000000"; }
   else if (slug.includes("1000000-to-1500000")) { minPrice = "1000000"; maxPrice = "1500000"; }
   else if (slug.includes("1500000-to-2500000")) { minPrice = "1500000"; maxPrice = "2500000"; }
-  else if (slug.startsWith("luxury")) minPrice = "1000000";
+  else if (slug.startsWith("luxury")) minPrice = "2500000";
   const status = slug.includes("sold") ? "Sold" : slug.includes("open-house") ? "Open House" : slug.includes("foreclosure") ? "Foreclosure" : slug.includes("active") ? "Active" : "";
   const propertyType = slug.includes("commercial") ? "Commercial" : "";
   const title = slug === "quick-search" ? "Quick Search" : slug === "advanced-search" ? "Advanced Search" : slug === "map-search" ? "Map Search" : humanize(slug).replace("Fl", "FL");
@@ -128,17 +128,134 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   return { title: `${title} | Ursula Weinkauff | Focus Group by Local Real Estate`, description: `${title} — Southwest Florida real estate information and property search from Ursula Weinkauff and Focus Group by Local Real Estate.` };
 }
 
+const teamMembers = [
+  {
+    name: "Kristin Boyle",
+    role: "Realtor® | GRI",
+    phone: "5053162306",
+    image: "/assets/kristin.jpeg",
+    bio: "Kristin brings a client-first approach to Southwest Florida real estate, helping buyers and sellers stay informed and confident from the first conversation through closing.",
+  },
+  {
+    name: "Gunnar Ketzler",
+    role: "Sales Professional | Realtor®",
+    phone: "2392689906",
+    image: "/assets/gunnar.jpg",
+    bio: "Gunnar supports buyers and sellers with responsive communication, local market awareness and practical guidance throughout the real estate process.",
+  },
+  {
+    name: "Pat Dimitroff",
+    role: "Realtor®",
+    phone: "",
+    image: "/assets/pat.jpg",
+    bio: "Pat works closely with clients to understand their goals and provide attentive, straightforward support while they buy or sell in Southwest Florida.",
+  },
+];
+
+function TeamGrid() {
+  return (
+    <div className="team-grid">
+      {teamMembers.map((member) => (
+        <article className="team-card" key={member.name}>
+          <img src={sitePath(member.image)} alt={`${member.name} headshot`} />
+          <div className="team-card-body">
+            <div className="eyebrow">Team Member</div>
+            <h2>{member.name}</h2>
+            <p className="team-role">{member.role}</p>
+            <p className="team-bio">{member.bio}</p>
+            <div className="team-actions">
+              {member.phone && <a href={`tel:${member.phone}`}>Call</a>}
+              <a href={sitePath("/contact-us")}>Email</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 function TeamPage() {
-  const team = [
-    { name: "Kristin Boyle", role: "Realtor® | GRI", phone: "5053162306", image: "/assets/kristin.jpeg" },
-    { name: "Gunnar Ketzler", role: "Sales Professional | Realtor®", phone: "2392689906", image: "/assets/gunnar.jpg" },
-    { name: "Pat Dimitroff", role: "Realtor®", phone: "", image: "/assets/pat.jpg" },
-  ];
-  return <PageShell title="Meet The Team"><div className="team-grid">{team.map((member) => <article className="team-card" key={member.name}><img src={sitePath(member.image)} alt={`${member.name} headshot`} /><div className="eyebrow">Team Member</div><h2>{member.name}</h2><p>{member.role}</p><div className="team-actions">{member.phone && <a href={`tel:${member.phone}`}>Call</a>}<a href={sitePath("/contact-us")}>Email</a></div></article>)}</div></PageShell>;
+  return <PageShell title="Meet The Team"><TeamGrid /></PageShell>;
+}
+
+function TeamListingsPage() {
+  return (
+    <div className="site-page">
+      <SiteHeader />
+      <main id="main-content" className="site-width search-page team-listings-page">
+        <IdxSearch title="Team Listings" featured />
+        <section className="team-listings-bios" aria-labelledby="team-listings-team">
+          <header className="section-heading">
+            <div>
+              <div className="eyebrow">Local guidance</div>
+              <h2 id="team-listings-team">Meet the team behind the listings</h2>
+            </div>
+            <p>Get to know the local professionals ready to guide your next Southwest Florida move.</p>
+          </header>
+          <TeamGrid />
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
+  );
 }
 
 function AboutPage() {
-  return <PageShell title="About Ursula Weinkauff"><p>Ursula has been in the Real Estate services business in the Bonita Springs, Estero, Naples, Ft Myers, Ft Myers Beach, Sanibel, Captiva and Cape Coral markets for many successful years and will be here for many more. This longevity and confidence comes from her expertise, excellent service and the repeat and referral business of her Buyers and Sellers.</p><p>As a full-time Southwest Florida Realtor®, Ursula and her team work with Buyers, Sellers and Investors across all price ranges and property types.</p><div className="service-list"><article><h2>Residential Single Family</h2><p>Our residential services connect buyers with sellers every day with professionalism and total dedication to our clients.</p></article><article><h2>Condominiums</h2><p>Our team understands the financing, association and ownership considerations that make the condominium market unique.</p></article><article><h2>Multi-family</h2><p>We help investors evaluate rental properties with careful return, valuation and market analysis.</p></article><article><h2>Commercial</h2><p>We collaborate with commercial property specialists for office, retail, restaurant and investment property needs.</p></article><article><h2>Vacant Land</h2><p>Land requires a clear understanding of use, location and potential. We help buyers and sellers see the full opportunity.</p></article></div><p>Call <a href="tel:2392972777">239-297-2777</a> or <a href={sitePath("/contact-us")}>contact us</a> to begin a conversation about your needs.</p></PageShell>;
+  const services = [
+    ["01", "Residential Single Family", "Our residential services connect buyers with sellers every day with professionalism and total dedication to our clients."],
+    ["02", "Condominiums", "Our team understands the financing, association and ownership considerations that make the condominium market unique."],
+    ["03", "Multi-family", "We help investors evaluate rental properties with careful return, valuation and market analysis."],
+    ["04", "Commercial", "We collaborate with commercial property specialists for office, retail, restaurant and investment property needs."],
+    ["05", "Vacant Land", "Land requires a clear understanding of use, location and potential. We help buyers and sellers see the full opportunity."],
+  ];
+
+  return (
+    <PageShell title="About Ursula Weinkauff" fullWidth>
+      <div className="about-showcase">
+        <section className="about-intro">
+          <div className="about-intro-copy">
+            <div className="eyebrow light">Local roots. Global perspective.</div>
+            <h2>Experience that makes every move feel more personal.</h2>
+            <p className="about-lead">Ursula has served buyers, sellers and investors across Southwest Florida since 1996.</p>
+            <p>Her longevity comes from local expertise, attentive service and the repeat and referral business of clients who value clear guidance. Ursula and her team work across all price ranges and property types throughout Bonita Springs, Estero, Naples, Fort Myers, Fort Myers Beach, Sanibel, Captiva and Cape Coral.</p>
+            <div className="about-actions">
+              <a className="button coral" href={sitePath("/contact-us")}>Start a Conversation</a>
+              <a className="about-text-link" href={sitePath("/meet-the-team")}>Meet the Team <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div className="about-portrait">
+            <div className="about-portrait-frame">
+              <img src={sitePath("/assets/ursula.jpg")} alt="Ursula Weinkauff" />
+            </div>
+            <div className="about-experience"><strong>Since 1996</strong><span>Serving Southwest Florida</span></div>
+          </div>
+        </section>
+
+        <section className="about-values" aria-label="What sets Focus Group apart">
+          <article><span>01</span><h3>Local Expertise</h3><p>Neighborhood-level knowledge across Southwest Florida&apos;s coastal and inland communities.</p></article>
+          <article><span>02</span><h3>Personal Guidance</h3><p>Responsive, thoughtful support shaped around each client&apos;s goals and timeline.</p></article>
+          <article><span>03</span><h3>Trusted Network</h3><p>Connections with experienced local professionals who help keep every move on track.</p></article>
+        </section>
+
+        <section className="about-services-section">
+          <header className="section-heading">
+            <div><div className="eyebrow">How we help</div><h2>One team. Every property type.</h2></div>
+            <p>Focused representation for buyers, sellers and investors at every stage of the real estate journey.</p>
+          </header>
+          <div className="about-service-list">
+            {services.map(([number, title, description]) => (
+              <article key={number}><span>{number}</span><div><h3>{title}</h3><p>{description}</p></div></article>
+            ))}
+          </div>
+        </section>
+
+        <section className="about-cta">
+          <div><div className="eyebrow light">Your next move</div><h2>Let&apos;s make it a confident one.</h2></div>
+          <div><p>Call <a href="tel:2392972777">239-297-2777</a> or tell us what you are looking for.</p><a className="button white" href={sitePath("/contact-us")}>Contact Ursula</a></div>
+        </section>
+      </div>
+    </PageShell>
+  );
 }
 
 function TestimonialsPage() {
@@ -220,9 +337,10 @@ function BlogArticle({ post }: { post: (typeof blogPosts)[string] }) {
 
 export default async function RoutePage({ params }: RouteProps) {
   const { slug } = await params;
+  if (slug === "office-listings") return <TeamListingsPage />;
   if (listingPage(slug)) {
     const defaults = listingDefaults(slug);
-    return <div className="site-page"><SiteHeader /><main className="site-width search-page"><IdxSearch title={defaults.title} defaultLocation={defaults.location} defaultMinPrice={defaults.minPrice} defaultMaxPrice={defaults.maxPrice} defaultStatus={defaults.status} defaultPropertyType={defaults.propertyType} featured={slug === "office-listings"} /></main><SiteFooter /></div>;
+    return <div className="site-page"><SiteHeader /><main className="site-width search-page"><IdxSearch title={defaults.title} defaultLocation={defaults.location} defaultMinPrice={defaults.minPrice} defaultMaxPrice={defaults.maxPrice} defaultStatus={defaults.status} defaultPropertyType={defaults.propertyType} /></main><SiteFooter /></div>;
   }
   if (slug === "about-us") return <AboutPage />;
   if (slug === "meet-the-team" || slug === "meet-our-team") return <TeamPage />;
