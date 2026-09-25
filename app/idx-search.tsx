@@ -11,10 +11,12 @@ type SearchProps = {
   defaultPropertyType?: string;
   showHeading?: boolean;
   featured?: boolean;
+  grid?: boolean;
   pinAgents?: string;
 };
 
 const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js";
+const IDX_GRID_SCRIPT = "https://sneak-idx-worker-staging.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.01.7.4b2";
 const IDX_HOST = "ursulaweinkauff.com";
 const TEAM_AGENT_IDS = "633942,B3233500,B3512909";
 
@@ -22,11 +24,12 @@ export function IdxSearch({
   title,
   showHeading = true,
   featured = false,
+  grid = false,
   pinAgents = TEAM_AGENT_IDS,
 }: SearchProps) {
   const shellRef = useRef<HTMLDivElement>(null);
   const [embedState, setEmbedState] = useState<"checking" | "preview" | "error">("checking");
-  const targetId = featured ? "sneak-idx-featured" : "sneak-idx-pinned";
+  const targetId = grid ? "sneak-idx-grid" : featured ? "sneak-idx-featured" : "sneak-idx-pinned";
 
   useEffect(() => {
     const shell = shellRef.current;
@@ -39,13 +42,16 @@ export function IdxSearch({
     }
 
     const script = document.createElement("script");
-    script.src = IDX_SCRIPT;
+    script.src = grid ? IDX_GRID_SCRIPT : IDX_SCRIPT;
     script.async = true;
     script.defer = true;
     script.setAttribute("data-site", "ursula-weinkauff");
     script.setAttribute("data-widget", "search");
     script.setAttribute("data-target", `#${targetId}`);
-    if (featured) {
+    if (grid) {
+      script.setAttribute("data-layout", "grid");
+      script.setAttribute("data-pin-agents", pinAgents);
+    } else if (featured) {
       script.setAttribute("data-featured", "true");
     } else {
       script.setAttribute("data-pin-agents", pinAgents);
@@ -57,7 +63,7 @@ export function IdxSearch({
       script.remove();
       shell.querySelectorAll(".sneak-idx-widget-container, .sneak-idx-error").forEach((node) => node.remove());
     };
-  }, [featured, pinAgents, targetId]);
+  }, [featured, grid, pinAgents, targetId]);
 
   return (
     <section className={featured ? "idx-browser idx-browser-featured" : "idx-browser"} aria-labelledby={showHeading ? "idx-title" : undefined}>
@@ -86,8 +92,9 @@ export function IdxSearch({
             id={targetId}
             data-site="ursula-weinkauff"
             data-widget="search"
-            data-featured={featured ? "true" : undefined}
-            data-pin-agents={featured ? undefined : pinAgents}
+            data-layout={grid ? "grid" : undefined}
+            data-featured={!grid && featured ? "true" : undefined}
+            data-pin-agents={featured && !grid ? undefined : pinAgents}
             style={{ width: "100%", maxWidth: "100%" }}
           />
         )}
