@@ -89,11 +89,11 @@ export const navGroups: NavGroup[] = [
 ];
 
 export const locations = [
-  { name: "Bonita Springs", slug: "bonita-springs", image: "/assets/bonita-springs.jpg", temp: "82°" },
-  { name: "Estero", slug: "estero", image: "/assets/estero.jpg", temp: "84°" },
-  { name: "Fort Myers", slug: "fort-myers", image: "/assets/fort-myers.jpg", temp: "82°" },
-  { name: "Fort Myers Beach", slug: "fort-myers-beach", image: "/assets/fort-myers-beach.jpg", temp: "81°" },
-  { name: "Naples", slug: "naples", image: "/assets/naples.jpg", temp: "82°" },
+  { name: "Bonita Springs", slug: "bonita-springs", image: "/assets/bonita-springs.jpg", latitude: 26.3398, longitude: -81.7787 },
+  { name: "Estero", slug: "estero", image: "/assets/estero.jpg", latitude: 26.4381, longitude: -81.8068 },
+  { name: "Fort Myers", slug: "fort-myers", image: "/assets/fort-myers.jpg", latitude: 26.6406, longitude: -81.8723 },
+  { name: "Fort Myers Beach", slug: "fort-myers-beach", image: "/assets/fort-myers-beach.jpg", latitude: 26.452, longitude: -81.9481 },
+  { name: "Naples", slug: "naples", image: "/assets/naples.jpg", latitude: 26.142, longitude: -81.7948 },
 ];
 
 export const communities = [
@@ -143,12 +143,23 @@ export const demoListings: Listing[] = [
 ];
 
 export const testimonials = [
+  { name: "Norbert Giehler", quote: "One of the Best Brokerage Firms in SW Florida! Highly professional property valuation, processing and sale. We will use Ms. Weinkauff’s services for future projects, purchases and sales. Everything is just right here." },
+  { name: "Clayton Brown", quote: "Ursula was very tentative, answered all her questions, and very friendly." },
+  { name: "Kevin Weinkauff", quote: "An incredible 20+ years of experience agent that helped me purchase my first home!" },
+  { name: "Jennifer Zhang", quote: "Ursula really knows the local housing market. She answered all our questions promptly, was knowledgeable in many aspects during the process, and provided plenty of great advice. Highly recommended!" },
+  { name: "Heinz Waser", quote: "Top quality full package brokerage in buying as well as selling situations. Ursula is definitely an experienced pro. Very recommendable." },
+  { name: "Steven Fishman", quote: "Ursula is the epitome of a real estate professional. She is extremely knowledgeable about the changing market. I highly recommend her!" },
+  { name: "Kris Boyle", quote: "Over the past several months, Ursula has been there every step of the way. Her professionalism, mentorship, knowledge, and honesty are truly respected and appreciated." },
+  { name: "Michael Belk", quote: "By trusting Ursula to guide our decisions in the negotiation process, we ended up with a great deal. Even after closing, she kept helping us get answers to every question." },
+  { name: "Andrea Volmari", quote: "Ursula guided us through the sale of our house with great professionalism and patience. Her high ethical standards and extensive experience gave us real peace of mind." },
+  { name: "Holger", quote: "We can 100% recommend Ursula. She takes care of every detail, has excellent communication skills, and helps you every step of the way so you never feel left alone." },
+  { name: "Arno", quote: "You made buying a home so easy for my wife and I. We were grateful for how much patience you used in answering all our questions and taking us to look at so many houses." },
+  { name: "Elaine", quote: "In all our dealings with Realtors® over the past ten years, we have never met anyone as helpful and energetic as you have been." },
   { name: "Ute & Manfred", quote: "Our expectations of professional advice were high, and Ursula fulfilled them to our fullest satisfaction." },
   { name: "John", quote: "Thanks for all your help in making our dream home a reality. We really appreciated that you went the extra mile to get us the best price for our home." },
-  { name: "Jennifer Zhang", quote: "Ursula really knows the local housing market. She answered all our questions promptly, yet we never felt pressured. Highly recommended!" },
-  { name: "Heinz Waser", quote: "Top quality full package brokerage in buying as well as selling situations. Ursula is definitely an experienced pro." },
-  { name: "Steven Fishman", quote: "Ursula is the epitome of a real estate professional. She is extremely knowledgeable about the changing market." },
-  { name: "Arno", quote: "You made buying a home so easy for my wife and I. We were grateful for your patience and strongly recommend you." },
+  { name: "Sabine", quote: "Thank you so much for taking the extra effort to make our first home purchase successful. You were there guiding us through all the crucial and important steps." },
+  { name: "Olaf Monien", quote: "I know Ursula since 2008. She listens to the customer and works hard to meet the customer’s expectations. I would definitely recommend her." },
+  { name: "Gabriele Batschak", quote: "Ursula is a very self-sacrificing woman. Nothing is too much for her. Customers are always served very courteously, and I can personally only recommend her." },
 ];
 
 export const legacySlugs = [
@@ -182,4 +193,3 @@ export const legacySlugs = [
   "the-colony-area-info", "the-colony-homes-for-sale", "valencia-bonita-homes-for-sale", "welcome-to-southwest-florida",
   "wildblue-homes-for-sale",
 ];
-

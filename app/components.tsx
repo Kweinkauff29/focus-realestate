@@ -89,19 +89,6 @@ export function HomeSearch({ compact = false, initialLocation = "" }: { compact?
   );
 }
 
-export function WeatherStrip() {
-  return (
-    <section className="weather-strip" aria-label="Southwest Florida weather">
-      {locations.map((location, index) => (
-        <article className={index === 0 ? "weather-card partly" : "weather-card"} key={location.slug}>
-          <div className="weather-top"><span>☀️</span><strong>{location.temp}</strong></div>
-          <div className="weather-bottom"><b>{location.name}</b><small>{index === 0 ? "Partly Cloudy" : "Clear"}</small></div>
-        </article>
-      ))}
-    </section>
-  );
-}
-
 export function ProfileAside() {
   return (
     <aside className="profile-card">

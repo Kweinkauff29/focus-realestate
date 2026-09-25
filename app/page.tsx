@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { HomeSearch, SiteFooter, SiteHeader, WeatherStrip } from "./components";
+import { HomeSearch, SiteFooter, SiteHeader } from "./components";
+import { TestimonialsCarousel, WeatherStrip } from "./home-widgets";
 import { IdxSearch } from "./idx-search";
-import { locations, priceBands, testimonials } from "./site-data";
+import { locations, priceBands } from "./site-data";
 import { sitePath } from "./site-path";
 
 export const metadata: Metadata = {
@@ -50,12 +51,7 @@ export default function Home() {
             </div>
             <a className="text-link" href={sitePath("/about-us")}>Learn more about Ursula and her team →</a>
           </article>
-          <article className="testimonial-stack">
-            <div className="eyebrow">Client Stories</div>
-            <h2>What Clients <em>Say</em></h2>
-            {testimonials.slice(0, 3).map((item) => <blockquote key={item.name}><p>“{item.quote}”</p><cite>{item.name}</cite></blockquote>)}
-            <a className="text-link" href={sitePath("/testimonials-page")}>View More Testimonials →</a>
-          </article>
+          <TestimonialsCarousel />
         </section>
 
         <section className="community-section">
