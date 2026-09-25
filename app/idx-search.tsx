@@ -20,7 +20,7 @@ const IDX_HOST = "ursulaweinkauff.com";
 const TEAM_AGENT_IDS = "633942,B3233500,B3512909";
 const QUICK_SEARCH_SITE = "ursulaweinkauff-com";
 const QUICK_SEARCH_HEADING = "Find Your Southwest Florida Dream Home";
-const QUICK_SEARCH_REDIRECT = "https://ursulaweinkauff.com/quick-search";
+const QUICK_SEARCH_REDIRECT = "/quick-search";
 
 export function IdxQuickSearch() {
   const shellRef = useRef<HTMLDivElement>(null);
