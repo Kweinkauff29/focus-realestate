@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ContactForm, PageShell, SiteFooter, SiteHeader } from "../components";
+import { AreaChart } from "../area-chart";
+import { ContactForm, PageShell, ProfileAside, SiteFooter, SiteHeader } from "../components";
 import { IdxSearch } from "../idx-search";
 import { legacySlugs, locations, testimonials } from "../site-data";
 import { sitePath } from "../site-path";
@@ -8,38 +9,78 @@ type RouteProps = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
-const areaGuides: Record<string, { name: string; location: string; details: string; facts: string[]; listingsSlug?: string }> = {
+type AreaGuideData = {
+  name: string;
+  seo: string;
+  facts: string[];
+  english: string;
+  german: string;
+  listingsSlug?: string;
+  charts: Array<{ kicker: string; title: string; src: string; note: string }>;
+};
+
+const areaGuides: Record<string, AreaGuideData> = {
   "pelican-landing-area-info": {
     name: "Pelican Landing",
-    location: "Bonita Springs, Florida",
-    details: "Pelican Landing is a naturally beautiful community where residents enjoy a private island beach park, Coconut Point Marina on Estero Bay, a sailing center, canoe and kayak park, community and fitness centers, bocce, tennis and pickleball courts, fishing piers, a butterfly garden and protected nature preserves. Two country clubs offer three 18-hole golf courses. From golf cottages and custom estates to high-rise Gulf-view condominiums, the community offers a remarkable range of homes.",
-    facts: ["2,300+ acre master-planned community", "34-acre private beach park", "12 Har-Tru tennis courts", "6 pickleball courts", "3 championship golf courses"],
+    seo: "Explore Pelican Landing homes for sale, Pelican Landing condos for sale, Pelican Landing real estate, and Pelican Landing waterfront homes in Bonita Springs, Florida.",
+    facts: ["Bonita Springs, Florida", "2,300+ Acre Master-Planned Community", "Estero Bay Location", "34-Acre Private Beach Park", "12 Har-Tru Tennis Courts", "6 Pickleball Courts", "3 Championship Golf Courses"],
+    english: "Pelican Landing in Bonita Springs, is a naturally beautiful community where residents have access to a one-of-a-kind Private Island Beach Park • Coconut Point Marina on Estero Bay with Sailing Center where residents can check out sailboats & kayaks, and enjoy complimentary sailing lessons • Canoe/Kayak Park • Community Center where residents gather to play games and socialize • Fitness Center • 2 Bocce Courts • 12 Tennis courts • 6 Pickleball courts • 3 fishing piers • Butterfly Garden, all nestled in amongst the protected nature preserve areas and there are 2 Country Clubs with three 18-hole golf courses between them. The community is also close to a variety of shopping, dining, and entertainment options, making it a popular choice for those looking for a peaceful and convenient place to call home. Whatever type of home you desire, from a cottage overlooking a golf course, a custom estate home to a high-rise condo overlooking the Gulf, you will find within Pelican Landing.",
+    german: "Pelican Landing in Bonita Springs ist eine natürlich schöne Community, in der die Bewohner Zugang zu einem einzigartigen Privatinsel-Strandpark haben • Coconut Point Marina in der Estero Bay mit Segelzentrum, wo die Bewohner Segelboote und Kajaks ausleihen und kostenlos Segelunterricht genießen können • Kanu-/Kajakpark • Community Zentrum, in dem sich die Bewohner versammeln, um Spiele zu spielen und Kontakte zu knüpfen • Fitnesscenter • 2 Bocciaplätze • 12 Tennisplätze • 6 Pickleball-Plätze • 3 Boot Angelstege • Schmetterlingsgarten, alles eingebettet in die geschützten Naturschutzgebiete und es gibt 2 Country Clubs mit drei 18-Loch-Golfplätzen innnerhalb der Community. Pelican Landing liegt auch in der Nähe einer Vielzahl von Einkaufs-, Speise- und Unterhaltungsmöglichkeiten, was sie zu einer beliebten Wahl für diejenigen macht, die einen ruhigen und bequemen Ort suchen, in dem sie sich Zuhause fühlen können. Welche Art von Immobilie Sie sich auch immer wünschen, von einem Cottage mit Blick auf einen Golfplatz, einem luxuriösen Anwesen bis hin zu einer Eigentumswohnung in einem Hochhaus mit Blick auf den Golf, Sie werden in Pelican Landing fündig.",
+    charts: [
+      { kicker: "Monthly Trend", title: "New Listings", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUVM-rRc?w=438&h=329", note: "Track listing activity as new Pelican Landing properties come to market." },
+      { kicker: "Monthly Trend", title: "Closed Sales", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUV1-Th5?w=438&h=329", note: "See how closed transaction volume has moved over time." },
+      { kicker: "Current Inventory", title: "Homes for Sale", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUVJ-K44?w=901&h=676", note: "A quick visual snapshot of active Pelican Landing inventory." },
+    ],
   },
   "the-colony-area-info": {
     name: "The Colony",
-    location: "Pelican Landing, Bonita Springs",
-    details: "The Colony is an intimate gated enclave within Pelican Landing, known for Gulf and Estero Bay views, luxury high-rise residences, coach homes and villas. Residents enjoy access to The Bay Club, Pelican Landing amenities, a private beach park and optional membership at The Colony Golf & Country Club.",
-    facts: ["Gated coastal community", "Bay Club dining", "Private beach access", "Golf and tennis", "High-rise and villa living"],
+    seo: "Explore The Colony at Pelican Landing homes for sale, The Colony condos for sale, The Colony high-rise condos, and The Colony real estate in Bonita Springs, Florida.",
+    facts: ["Bonita Springs, Florida", "Phase II of Pelican Landing", "Developed by WCI", "Estero Bay Bay Club", "Beach Park Access", "Tennis & Pickleball", "High-Rise to Golf Villa Options"],
+    english: "The Colony at Pelican Landing is an upscale gated community located in Bonita Springs, Florida. The community offers a range of amenities including golf, tennis, pickle ball, bay club, boating, kayak & canoe and a beach park. The Colony is known for its luxury homes, resort-style amenities, and its location near some of Southwest Florida's best shopping, dining, and entertainment.",
+    german: "The Colony at Pelican Landing ist eine gehobene Community in Bonita Springs, Florida. Die Community bietet eine Reihe von Annehmlichkeiten, darunter Golf, Tennis, Pickle Ball, Bay Club, Bootfahren, Kajak und Kanu sowie einen Beach park. The Colony ist bekannt für seine luxuriösen Häuser, Annehmlichkeiten im Resort-Stil und seine Lage in der Nähe einiger der besten Einkaufsmöglichkeiten, Restaurants und Unterhaltungsmöglichkeiten im Südwesten Floridas.",
+    charts: [
+      { kicker: "Monthly Trend", title: "New Listings", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUci-yFW?w=438&h=329", note: "Track listing activity as new The Colony properties come to market." },
+      { kicker: "Monthly Trend", title: "Closed Sales", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUcJ-13X?w=438&h=329", note: "See how closed transaction volume has moved over time." },
+      { kicker: "Current Inventory", title: "Homes for Sale", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUcW-pEH?w=901&h=676", note: "A quick visual snapshot of active The Colony inventory." },
+    ],
   },
   "bonita-bay-area-info": {
     name: "Bonita Bay",
-    location: "Bonita Springs, Florida",
-    details: "Bonita Bay is one of Southwest Florida’s landmark master-planned communities. More than half of its acreage is dedicated to open space, lakes, preserves and parks. The community pairs waterfront living with championship golf, a marina, miles of walking and biking paths, and a private beach park on the Gulf of Mexico.",
-    facts: ["Five championship golf courses", "Full-service marina", "Private Gulf beach park", "12 miles of pathways", "Multiple waterfront neighborhoods"],
+    seo: "Explore Bonita Bay homes for sale, Bonita Bay condos for sale, Bonita Bay real estate, Bonita Bay luxury homes, Bonita Bay high-rise residences, and Bonita Bay waterfront lifestyle in Bonita Springs, Florida.",
+    facts: ["Bonita Springs, Florida", "2,400-Acre Master-Planned Community", "Private Beach Access", "Bonita Bay Marina", "12 Miles of Recreational Paths", "Condos to Estate Homes", "Gated Luxury Lifestyle"],
+    english: "Bonita Bay is a world class 2400 acre master-planned gated community in Bonita Springs, Florida. It is known for its luxurious homes, golf courses, marina, and diverse amenities, including tennis courts, beach clubs, and nature trails. The community offers a variety of Real Estate options, ranging from condominiums, villas, high-rise residences and single-family homes to custom estate homes. Bonita Bay is considered a top destination for those seeking an upscale, amenity-rich lifestyle in Southwest Florida.",
+    german: "Bonita Bay ist eine erstklassige, 2400 Hektar große Community in Bonita Springs, Florida. Es ist bekannt für seine luxuriösen Häuser, Golfplätze, der Marina und verschiedene Annehmlichkeiten, darunter Tennisplätze, Beach Clubs und Naturpfade. Die Gemeinde bietet eine Vielzahl von Immobilienoptionen an, die von Eigentumswohnungen, Villen, Hochhäusern und Einfamilienhäusern bis hin zu luxuriösen Anwesen reichen. Bonita Bay gilt als Top-Reiseziel für diejenigen, die einen gehobenen, an Annehmlichkeiten reichen Lebensstil im Südwesten Floridas suchen.",
+    charts: [
+      { kicker: "Current Inventory", title: "Homes for Sale", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUNU-VMU?w=438&h=329", note: "A quick visual snapshot of active Bonita Bay inventory." },
+      { kicker: "Monthly Trend", title: "New Listings", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUNp-d7Z?w=438&h=329", note: "Track listing activity as new Bonita Bay properties come to market." },
+      { kicker: "Monthly Trend", title: "Closed Sales", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUNk-Lb9?w=901&h=676", note: "See how closed transaction volume has moved over time." },
+    ],
   },
   "esplanade-lake-club-area-info": {
     name: "Esplanade Lake Club",
-    location: "Fort Myers, Florida",
     listingsSlug: "esplanade-homes-for-sale",
-    details: "Esplanade Lake Club offers resort-style living centered around a large recreational lake. Residents enjoy boating, kayaking, waterfront dining, a resort pool, fitness and wellness amenities, sports courts and an active social calendar in a convenient Fort Myers location.",
-    facts: ["Lakefront lifestyle", "Boating and kayaking", "Resort pool", "Bahama Bar", "Fitness and sports courts"],
+    seo: "Explore Esplanade Lake Club homes for sale, Esplanade Lake Club real estate, Esplanade Lake Club Fort Myers homes, Esplanade Lake Club waterfront homes, and Esplanade Lake Club boating lifestyle in Southwest Florida.",
+    facts: ["Fort Myers, Florida", "Lake Como Setting", "350+ Acres of Freshwater", "Boats up to 23 Feet", "Boat Ramp & Kayak Launch", "Bahama Bar & Resort Pool", "Tennis, Pickleball & Bocce"],
+    english: "Esplanade Lake Club is a resort-style waterfront community in Fort Myers, Florida, centered around Lake Como and designed for buyers who want a luxury, amenity-rich lifestyle. The community is known for its boating access, Bahama Bar, resort-style pool, sports courts, walking trails, and social lifestyle programming. Real estate options include villas and single-family homes with lake, preserve, and resort-inspired surroundings. Esplanade Lake Club is a popular destination for buyers looking for waterfront living, modern homes, and an active Southwest Florida lifestyle.",
+    german: "Esplanade Lake Club ist eine Resort-Community am Wasser in Fort Myers, Florida, die sich rund um den Lake Como erstreckt und sich an Käufer richtet, die einen luxuriösen Lebensstil mit vielen Annehmlichkeiten suchen. Die Community ist bekannt für ihren Zugang zum Wasser, die Bahama Bar, den Resort-Pool, Sportplätze, Spazierwege und ein aktives soziales Lifestyle-Programm. Die Immobilienoptionen umfassen Villen und Einfamilienhäuser mit Blick auf den See, Naturflächen und ein modernes, resortähnliches Wohnumfeld. Esplanade Lake Club ist eine beliebte Wahl für Käufer, die modernes Wohnen am Wasser und einen aktiven Lebensstil im Südwesten Floridas suchen.",
+    charts: [
+      { kicker: "Monthly Trend", title: "New Listings", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUG2-a2f?w=438&h=329", note: "Track listing activity as new Esplanade Lake Club properties come to market." },
+      { kicker: "Monthly Trend", title: "Closed Sales", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUGT-2Ml?w=438&h=329", note: "See how closed transaction volume has moved over time." },
+      { kicker: "Current Inventory", title: "Homes for Sale", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUGZ-x5W?w=901&h=676", note: "A quick visual snapshot of active Esplanade Lake Club inventory." },
+    ],
   },
   "bonita-national-golf-country-club-area-info": {
-    name: "Bonita National Golf & Country Club",
-    location: "Bonita Springs, Florida",
+    name: "Bonita National",
     listingsSlug: "bonita-national-homes-for-sale",
-    details: "Bonita National is a gated golf community featuring a Gordon Lewis-designed championship course, a grand clubhouse, resort pool, fitness center, spa, tennis and dining. The neighborhood includes condominiums, coach homes and single-family residences with golf and preserve views.",
-    facts: ["18-hole championship golf", "Resort-style pool", "Clubhouse dining", "Tennis and fitness", "Condos to single-family homes"],
+    seo: "Explore Bonita National homes for sale, Bonita National condos for sale, Bonita National golf homes, Bonita National real estate, and Bonita National bundled golf living in Bonita Springs, Florida.",
+    facts: ["Bonita Springs, Florida", "Gated Golf Community", "Championship Golf Course", "Wildlife Preserve Setting", "Resort-Style Pool", "Fitness Center & Spa", "Close to Beaches, Shopping & Dining"],
+    english: "Bonita National Golf and Country Club is a golf course and residential community located in Bonita Springs, Florida. This beautiful gated community is designed around a wildlife preserve and offers a variety of amenities, including a championship golf course, a clubhouse, a resort-style pool, fitness center, tennis courts, and a full-service spa. Bonita National is known for its stunning homes, beautiful landscapes, and its convenient location near the beaches of Southwest Florida, shopping, and dining options.",
+    german: "Bonita National Golf and Country Club in Bonita Springs, Florida, eine wunderschöne Wohnanlage, ist um ein Naturschutzgebiet herum angelegt und bietet eine Vielzahl von Annehmlichkeiten, darunter einen Championship-Golfplatz, ein Clubhaus, einen Pool im Resort-Stil, ein Fitnesscenter, Tennisplätze und ein Spa mit umfassendem Service. Bonita National ist bekannt für seine atemberaubenden Häuser, wunderschönen Landschaften und seine günstige Lage in der Nähe der Strände von Südwestflorida, Einkaufsmöglichkeiten und Restaurants.",
+    charts: [
+      { kicker: "Monthly Trend", title: "New Listings", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUGs-wDr?w=438&h=329", note: "Track listing activity as new Bonita National properties come to market." },
+      { kicker: "Monthly Trend", title: "Closed Sales", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUGa-Sat?w=438&h=329", note: "See how closed transaction volume has moved over time." },
+      { kicker: "Current Inventory", title: "Homes for Sale", src: "https://bonitaestero.stats.showingtime.com/infoserv/s-v1/cUGL-u7x?w=901&h=676", note: "A quick visual snapshot of active Bonita National inventory." },
+    ],
   },
 };
 
@@ -104,9 +145,65 @@ function TestimonialsPage() {
   return <PageShell title="Testimonials"><div className="testimonials-page">{testimonials.map((item) => <blockquote key={item.name}><p>“{item.quote}”</p><cite>{item.name}</cite></blockquote>)}</div></PageShell>;
 }
 
-function AreaGuide({ guide }: { guide: (typeof areaGuides)[string] }) {
-  const listingsSlug = guide.listingsSlug || `${guide.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")}-homes-for-sale`;
-  return <PageShell title={`${guide.name} Overview`} eyebrow="Area Guide"><p className="lead">Explore {guide.name} homes for sale, real estate and community information in {guide.location}.</p><div className="fact-grid">{guide.facts.map((fact) => <span key={fact}>{fact}</span>)}</div><h2>Life in {guide.name}</h2><p>{guide.details}</p><div className="language-note"><strong>🇩🇪 Deutschsprachige Immobilienberatung</strong><p>Ursula unterstützt deutschsprachige Käufer und Verkäufer persönlich bei jedem Schritt ihrer Immobilientransaktion in Südwest-Florida.</p></div><section className="market-snapshot"><div className="eyebrow">Market Snapshot</div><h2>{guide.name} Stats</h2><div className="stat-grid"><article><small>Monthly Trend</small><strong>New Listings</strong><div className="spark bars"><i /><i /><i /><i /><i /><i /></div></article><article><small>Monthly Trend</small><strong>Closed Sales</strong><div className="spark line"><i /></div></article><article><small>Current Inventory</small><strong>Homes for Sale</strong><div className="spark number">Live IDX</div></article></div></section><a className="button dark" href={sitePath(`/${listingsSlug}`)}>View Homes for Sale</a></PageShell>;
+function AreaGuide({ guide }: { guide: AreaGuideData }) {
+  return (
+    <div className="site-page">
+      <SiteHeader />
+      <div className="site-width page-grid area-info-layout">
+        <ProfileAside />
+        <main id="main-content" className="page-main area-info-main">
+          <section className="area-info" aria-label={`${guide.name} overview and market statistics`}>
+            <header className="area-info-heading">
+              <span className="area-info-eyebrow">Area Guide</span>
+              <h1 className="area-info-title">{guide.name} <em>Overview</em></h1>
+              <p className="area-info-seo">{guide.seo}</p>
+              <div className="area-info-facts">
+                {guide.facts.map((fact) => <span key={fact}>{fact}</span>)}
+              </div>
+            </header>
+
+            <div className="area-info-stack">
+              <article className="area-info-panel-wrap">
+                <div className="area-info-panel">
+                  <div className="area-info-panel-label"><span aria-hidden="true">🇺🇸 🇬🇧</span> English</div>
+                  <p>{guide.english}</p>
+                </div>
+              </article>
+
+              <article className="area-info-panel-wrap">
+                <div className="area-info-panel area-info-panel-german">
+                  <div className="area-info-panel-label"><span aria-hidden="true">🇩🇪</span> German</div>
+                  <p lang="de">{guide.german}</p>
+                </div>
+              </article>
+
+              <div className="area-info-subheading">
+                <span>Market Snapshot</span>
+                <h2>{guide.name} <em>Stats</em></h2>
+              </div>
+
+              <div className="area-info-stats">
+                {guide.charts.map((chart, index) => (
+                  <article className={`area-stat${index === 2 ? " area-stat-wide" : ""}`} key={chart.src}>
+                    <div className="area-stat-card">
+                      <header className="area-stat-head">
+                        <span>{chart.kicker}</span>
+                        <h3>{chart.title}</h3>
+                      </header>
+                      <AreaChart src={chart.src} title={`${guide.name} ${chart.title}`} />
+                      <p className="area-stat-note">{chart.note}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+            </div>
+          </section>
+        </main>
+      </div>
+      <SiteFooter />
+    </div>
+  );
 }
 
 function BuyerSellerInfo() {

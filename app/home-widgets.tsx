@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import { locations, testimonials } from "./site-data";
 import { sitePath } from "./site-path";
 
@@ -167,60 +167,84 @@ export function WeatherStrip() {
 }
 
 export function TestimonialsCarousel() {
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const [paused, setPaused] = useState(false);
+  const [groupIndex, setGroupIndex] = useState(0);
+  const [animation, setAnimation] = useState(() =>
+    Array.from({ length: 3 }, () => ({ visible: false, wordCount: 0, authorVisible: false })),
+  );
 
   useEffect(() => {
-    if (paused) return;
-
-    const showTimer = window.setTimeout(() => setVisible(true), 80);
-    const hideTimer = window.setTimeout(() => setVisible(false), 9_000);
-    const nextTimer = window.setTimeout(
-      () => setTestimonialIndex((index) => (index + 1) % testimonials.length),
-      10_000,
+    const timers: number[] = [];
+    const group = Array.from(
+      { length: 3 },
+      (_, index) => testimonials[(groupIndex * 3 + index) % testimonials.length],
     );
+    const schedule = (delay: number, update: () => void) => {
+      timers.push(window.setTimeout(update, delay));
+    };
+    const updateItem = (itemIndex: number, values: Partial<(typeof animation)[number]>) => {
+      setAnimation((current) => current.map((item, index) => index === itemIndex ? { ...item, ...values } : item));
+    };
+
+    let elapsed = 80;
+
+    group.forEach((testimonial, itemIndex) => {
+      const words = testimonial.quote.split(/\s+/);
+      schedule(elapsed, () => updateItem(itemIndex, { visible: true }));
+      elapsed += 900;
+
+      words.forEach((_, wordIndex) => {
+        schedule(elapsed + wordIndex * 62, () => updateItem(itemIndex, { wordCount: wordIndex + 1 }));
+      });
+
+      elapsed += words.length * 62 + 180;
+      schedule(elapsed, () => updateItem(itemIndex, { authorVisible: true }));
+      elapsed += 240;
+    });
+
+    elapsed += 6_000;
+
+    group.forEach((_, itemIndex) => {
+      schedule(elapsed, () => updateItem(itemIndex, { visible: false, authorVisible: false }));
+      elapsed += 900;
+      schedule(elapsed, () => updateItem(itemIndex, { wordCount: 0 }));
+      elapsed += 220;
+    });
+
+    schedule(elapsed + 250, () => setGroupIndex((index) => (index + 1) % Math.ceil(testimonials.length / 3)));
 
     return () => {
-      window.clearTimeout(showTimer);
-      window.clearTimeout(hideTimer);
-      window.clearTimeout(nextTimer);
+      timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [testimonialIndex, paused]);
+  }, [groupIndex]);
 
-  const testimonial = testimonials[testimonialIndex];
-  const words = testimonial.quote.split(/\s+/);
-  const animationStyle = {
-    "--cite-delay": `${0.7 + words.length * 0.035}s`,
-  } as CSSProperties;
+  const activeTestimonials = Array.from(
+    { length: 3 },
+    (_, index) => testimonials[(groupIndex * 3 + index) % testimonials.length],
+  );
 
   return (
-    <article
-      className="testimonial-stack"
-      aria-label="Client testimonials"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
+    <article className="testimonial-stack" aria-label="Client testimonials">
       <div className="eyebrow">Client Stories</div>
       <h2>What Clients <em>Say</em></h2>
       <div className="testimonial-rotation" aria-live="polite">
-        <blockquote
-          className={`testimonial-bubble ${testimonialIndex % 2 ? "from-right" : "from-left"}${visible ? " is-visible" : ""}`}
-          key={`${testimonialIndex}-${testimonial.name}`}
-          style={animationStyle}
-        >
-          <p>
-            {words.map((word, wordIndex) => (
-              <span
-                key={`${word}-${wordIndex}`}
-                style={{ "--word-delay": `${0.55 + wordIndex * 0.035}s` } as CSSProperties}
-              >
-                {word}{" "}
-              </span>
-            ))}
-          </p>
-          <cite>{testimonial.name}</cite>
-        </blockquote>
+        {activeTestimonials.map((testimonial, itemIndex) => {
+          const itemAnimation = animation[itemIndex];
+          const words = testimonial.quote.split(/\s+/);
+
+          return (
+            <blockquote
+              className={`testimonial-bubble ${itemIndex % 2 ? "from-right" : "from-left"}${itemAnimation.visible ? " is-visible" : ""}`}
+              key={`${groupIndex}-${testimonial.name}-${itemIndex}`}
+            >
+              <p>
+                {words.slice(0, itemAnimation.wordCount).map((word, wordIndex) => (
+                  <span key={`${word}-${wordIndex}`}>{word}{" "}</span>
+                ))}
+              </p>
+              <cite className={itemAnimation.authorVisible ? "is-visible" : ""}>{testimonial.name}</cite>
+            </blockquote>
+          );
+        })}
       </div>
       <a className="text-link" href={sitePath("/testimonials-page")}>View More Testimonials →</a>
     </article>

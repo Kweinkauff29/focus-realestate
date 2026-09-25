@@ -11,12 +11,9 @@ export const metadata: Metadata = {
 };
 
 const actionCards = [
-  { icon: "⌂", kicker: "Start Here", title: "Buy A Home", text: "Tell us your home search criteria and we’ll get to work immediately. Together, we’ll find your next dream home.", href: "/dream-home-finder" },
-  { icon: "◇", kicker: "Start Here", title: "Sell Your Home", text: "Share a few details about your property and we’ll help you prepare for a confident sale.", href: "/free-market-analysis" },
-  { icon: "$", kicker: "Start Here", title: "Market Analysis", text: "See what your home may be worth with comparable sales and neighborhood insight.", href: "/free-market-analysis" },
-  { icon: "⌕", kicker: "Explore", title: "Property Search", text: "Browse homes, narrow your criteria and discover what is available across Southwest Florida.", href: "/quick-search" },
-  { icon: "♡", kicker: "Account", title: "Save Favorites", text: "Save your preferred searches and listings so they are ready when you come back.", href: "/account" },
-  { icon: "✎", kicker: "Connect", title: "Contact Us", text: "Have a question or want more information? Let’s talk about your real estate goals.", href: "/contact-us" },
+  { icon: "🔓", title: <>Unlock Your<br />Search</>, text: "Unlock the search interface so you can browse homes without restrictions or interruptions.", href: "/account" },
+  { icon: "♥", title: <>Save Your<br />Favorites</>, text: "Save your favorite searches and listings for later. They’ll be waiting for you when you come back.", href: "/account" },
+  { icon: "🔔", title: <>Get Email<br />Notifications</>, text: "Get notified when new homes are listed that match your search criteria.", href: "/account" },
 ];
 
 export default function Home() {
@@ -73,10 +70,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="action-section site-width">
-          <div className="section-heading"><div><div className="eyebrow">How can we help?</div><h2>Your next move starts here</h2></div></div>
+        <section className="action-section site-width" aria-label="Property search account benefits">
           <div className="action-grid">
-            {actionCards.map((card) => <a className="action-card" key={card.title} href={sitePath(card.href)}><span className="action-icon">{card.icon}</span><small>{card.kicker}</small><h3>{card.title}</h3><p>{card.text}</p><b>Get started →</b></a>)}
+            {actionCards.map((card, index) => <a className={`action-card action-card-${index + 1}`} key={index} href={sitePath(card.href)}><span className="action-icon" aria-hidden="true">{card.icon}</span><h3>{card.title}</h3><p>{card.text}</p></a>)}
           </div>
         </section>
 
