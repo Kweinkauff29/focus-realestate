@@ -15,13 +15,12 @@ type SearchProps = {
   pinAgents?: string;
 };
 
-const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js";
-const IDX_GRID_SCRIPT = "https://sneak-idx-worker-staging.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.01.7.4b2";
+const IDX_SCRIPT = "https://sneak-idx-worker.bonitaspringsrealtors.workers.dev/embed.js?v=2026.09.25.1";
 const IDX_HOST = "ursulaweinkauff.com";
 const TEAM_AGENT_IDS = "633942,B3233500,B3512909";
 const QUICK_SEARCH_SITE = "ursulaweinkauff-com";
 const QUICK_SEARCH_HEADING = "Find Your Southwest Florida Dream Home";
-const QUICK_SEARCH_REDIRECT = "http://ursulaweinkauff.com/quick-search";
+const QUICK_SEARCH_REDIRECT = "https://ursulaweinkauff.com/quick-search";
 
 export function IdxQuickSearch() {
   const shellRef = useRef<HTMLDivElement>(null);
@@ -32,7 +31,7 @@ export function IdxQuickSearch() {
     if (!shell) return;
 
     const hostname = window.location.hostname.toLowerCase();
-    if (hostname !== IDX_HOST) {
+    if (hostname !== IDX_HOST && hostname !== `www.${IDX_HOST}`) {
       const previewTimer = window.setTimeout(() => setEmbedState("preview"), 0);
       return () => window.clearTimeout(previewTimer);
     }
@@ -102,13 +101,13 @@ export function IdxSearch({
     if (!shell) return;
 
     const hostname = window.location.hostname.toLowerCase();
-    if (hostname !== IDX_HOST) {
+    if (hostname !== IDX_HOST && hostname !== `www.${IDX_HOST}`) {
       const previewTimer = window.setTimeout(() => setEmbedState("preview"), 0);
       return () => window.clearTimeout(previewTimer);
     }
 
     const script = document.createElement("script");
-    script.src = grid ? IDX_GRID_SCRIPT : IDX_SCRIPT;
+    script.src = IDX_SCRIPT;
     script.async = true;
     script.defer = true;
     script.setAttribute("data-site", "ursula-weinkauff");
@@ -120,6 +119,7 @@ export function IdxSearch({
     if (defaultPropertyType) script.setAttribute("data-property-type", defaultPropertyType);
     if (grid) {
       script.setAttribute("data-layout", "grid");
+      script.setAttribute("data-agent", pinAgents);
       script.setAttribute("data-pin-agents", pinAgents);
     } else if (featured) {
       script.setAttribute("data-featured", "true");
@@ -163,6 +163,7 @@ export function IdxSearch({
             data-site="ursula-weinkauff"
             data-widget="search"
             data-layout={grid ? "grid" : undefined}
+            data-agent={grid ? pinAgents : undefined}
             data-featured={!grid && featured ? "true" : undefined}
             data-pin-agents={featured && !grid ? undefined : pinAgents}
             data-location={defaultLocation || undefined}

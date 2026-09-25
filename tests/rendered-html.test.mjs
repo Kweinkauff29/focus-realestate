@@ -17,9 +17,10 @@ test("exports the production home page and GitHub Pages control files", async ()
   assert.match(html, /data-site="ursulaweinkauff-com"/);
   assert.match(html, /data-widget="quick-search"/);
   assert.match(html, /data-heading="Find Your Southwest Florida Dream Home"/);
-  assert.match(html, /data-redirect-url="http:\/\/ursulaweinkauff.com\/quick-search"/);
+  assert.match(html, /data-redirect-url="https:\/\/ursulaweinkauff.com\/quick-search"/);
   assert.match(html, /id="sneak-idx-grid"/);
   assert.match(html, /data-layout="grid"/);
+  assert.match(html, /data-agent="633942, B3512909"/);
   assert.match(html, /data-pin-agents="633942, B3512909"/);
   assert.doesNotMatch(html, /data-featured="true"/);
   assert.match(html, /Browse by price/);
